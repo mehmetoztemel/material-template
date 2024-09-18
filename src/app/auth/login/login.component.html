@@ -1,0 +1,22 @@
+<div class="container login-container">
+    <mat-card class="login-card">
+        <mat-card-title style="text-align: center;">
+            <h1>Login</h1>
+        </mat-card-title>
+        <form [formGroup]="loginForm">
+            <mat-form-field class="full-width"  appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" required>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" required>
+            </mat-form-field>
+            <mat-card-actions class="card-action">
+                <button mat-raised-button color="primary" class="button" [disabled]="!loginForm.valid" (click)="Login()">Login</button>
+                &nbsp;
+                <button mat-raised-button color="primary" class="button" (click)="Register()">Register</button>
+            </mat-card-actions>            
+        </form>
+    </mat-card>
+</div>

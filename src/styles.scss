@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+// we used this for mat card component to put middle
+.card-margin {
+    margin: 25px;
+}
+
+/* Login and Register Card Settings*/
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.login-card {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 30px !important;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.button {
+    width: 250px;
+}
+
+.card-action {
+    display: flex;
+    justify-content: center;
+}

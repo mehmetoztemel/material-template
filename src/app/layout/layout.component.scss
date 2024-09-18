@@ -1,0 +1,88 @@
+h1 {
+    padding: 0 1rem;
+}
+
+h2 {
+    padding: 1rem;
+}
+
+mat-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+mat-sidenav-container {
+    height: 100%;
+}
+
+// Move the content down so that it won't be hidden by the toolbar
+mat-sidenav {
+    padding-top: 3.5rem;
+
+    @media screen and (min-width: 600px) {
+        padding-top: 4rem;
+    }
+    .menu-list-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .menu-list-item-with-submenu {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+// Move the content down so that it won't be hidden by the toolbar
+mat-sidenav-content {
+    padding-top: 3.5rem;
+
+    @media screen and (min-width: 600px) {
+        padding-top: 4rem;
+    }
+}
+
+// we used this for navbar buttons like logout,user setting etc.
+.navbar-spacer {
+    flex: 1 1 auto;
+}
+.expanded {
+    width: 250px;
+}
+
+// benim eklediğim css ler
+:host ::ng-deep .mat-content {
+    margin-left: -0.5rem;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+    padding: 0 15px 6px !important;
+}
+
+// seçili menü yada üzerine geldiğimizde soluna mavi imleç
+.nav {
+    .active-link {
+        background-color: #fafafa;
+        border-left: solid 5px #0277bd;
+    }
+
+    .hover {
+        transition-duration: 400ms;
+        transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition-property: transform, border, background-color;
+    }
+
+    mat-list-item,
+    a {
+        border: none;
+        box-sizing: border-box;
+        text-decoration: none;
+        &:hover {
+            cursor: pointer;
+            background-color: #fafafa;
+            border-left: solid 5px #0277bd;
+        }
+    }
+}

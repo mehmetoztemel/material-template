@@ -1,0 +1,80 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Material Template</span>
+  <span class="navbar-spacer"></span>
+  <div>
+    <button mat-icon-button matTooltip="Switch Apps">
+      <mat-icon>apps</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Notifications">
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="accountMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #accountMenu [overlapTrigger]="false">
+      <button mat-menu-item routerLink="#">
+        <mat-icon>person</mat-icon><span>My Account</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>help</mat-icon><span>Help</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="LogOut()">
+        <mat-icon>exit_to_app</mat-icon>Logout
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container autosize="true">
+  <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="isMobile ? 'over' : 'side'"
+    [opened]="isMobile ? 'false' : 'true'">
+
+    <!-- dinamik menü oluşturma -->
+    <mat-nav-list class="nav">
+      <ng-container *ngFor="let item of menuItems">
+        <ng-container *ngIf="!item.subItems">
+          <a mat-list-item [routerLink]="item.path" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{exact: true}">
+            <span class="menu-list-item" [matTooltip]="isCollapsed ? item.label : null" matTooltipPosition="right"
+              [matTooltipDisabled]="!isCollapsed">
+              <mat-icon>{{item.icon}}</mat-icon>
+              <span *ngIf="!isCollapsed">{{item.label}}</span>
+            </span>
+          </a>
+        </ng-container>
+
+        <ng-container *ngIf="item.subItems">
+          <!-- class.mat-elevation-z0 bu özellik subMenüsü olan menünün çerçevesini belirsiz hale getiriyor -->
+          <mat-expansion-panel [class.mat-elevation-z0]="true">
+            <mat-expansion-panel-header>
+              <span class="menu-list-item-with-submenu" [matTooltip]="isCollapsed ? item.label : null"
+                matTooltipPosition="right" [matTooltipDisabled]="!isCollapsed">
+                <mat-icon>{{item.icon}}</mat-icon>
+                <span *ngIf="!isCollapsed" style="font-size: 16px; font-weight: normal;">{{item.label}}</span>
+              </span>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <ng-container *ngFor="let subItem of item.subItems">
+                <a mat-list-item [routerLink]="subItem.path" routerLinkActive="active-link"
+                  [routerLinkActiveOptions]="{exact: true}">
+                  <span class="menu-list-item" [matTooltip]="isCollapsed ? subItem.label : null"
+                    matTooltipPosition="right" [matTooltipDisabled]="!isCollapsed">
+                    <mat-icon>{{ subItem.icon }}</mat-icon>
+                    <span *ngIf="!isCollapsed">{{ subItem.label }}</span>
+                  </span>
+                </a>
+              </ng-container>
+            </mat-nav-list>
+          </mat-expansion-panel>
+        </ng-container>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

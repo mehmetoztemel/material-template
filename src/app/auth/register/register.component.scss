@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.login-redirect {
+  font-size: 14px;
+  color: #007bff;
+  margin-top: 10px;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.login-redirect a {
+  text-decoration: none; 
+  cursor: pointer;
+}
+
+.login-redirect a:hover {
+  text-decoration: underline;
+  color: red; 
+}

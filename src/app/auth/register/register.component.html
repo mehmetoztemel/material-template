@@ -1,0 +1,35 @@
+<div class="container login-container">
+    <mat-card class="login-card">
+        <mat-card-title style="text-align: center;">
+            <h2>Register</h2>
+            <mat-card-subtitle>Let's get started</mat-card-subtitle>
+        </mat-card-title>
+        <form [formGroup]="registerForm">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput type="text" formControlName="firstName" required>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" formControlName="lastName" required>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <input matInput type="email" formControlName="email" required>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" required>
+            </mat-form-field>
+            <mat-card-actions class="card-action">
+                <button mat-raised-button color="primary" class="button" [disabled]="!registerForm.valid"
+                    (click)="Register()">Register</button>
+            </mat-card-actions>
+        </form>
+        <div class="login-redirect">
+            <p>Already have an account?
+                <a (click)="Register()">Login here</a>
+            </p>
+        </div>
+    </mat-card>
+</div>
