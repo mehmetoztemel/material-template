@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="toolbar" color="primary">
   <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -29,7 +29,7 @@
   </div>
 </mat-toolbar>
 
-<mat-sidenav-container autosize="true">
+<mat-sidenav-container style="height: 100%;" autosize="true">
   <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="isMobile ? 'over' : 'side'"
     [opened]="isMobile ? 'false' : 'true'">
 
@@ -51,7 +51,7 @@
           <!-- class.mat-elevation-z0 bu özellik subMenüsü olan menünün çerçevesini belirsiz hale getiriyor -->
           <mat-expansion-panel [class.mat-elevation-z0]="true">
             <mat-expansion-panel-header>
-              <span class="menu-list-item-with-submenu" [matTooltip]="isCollapsed ? item.label : null"
+              <span class="menu-list-item-submenu" [matTooltip]="isCollapsed ? item.label : null"
                 matTooltipPosition="right" [matTooltipDisabled]="!isCollapsed">
                 <mat-icon>{{item.icon}}</mat-icon>
                 <span *ngIf="!isCollapsed" style="font-size: 16px; font-weight: normal;">{{item.label}}</span>
