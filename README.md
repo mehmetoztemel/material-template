@@ -16,6 +16,13 @@
 - **Auth Interceptor'lar:** API çağrılarında yetkilendirme bilgilerini otomatik olarak ekler.
 - **Auth Guard:** Belirli sayfalara erişimi yönetir ve korur.
 
-![Örnek Resim](./assets/screenshots/layout.png)
+![Login](./src/assets/screenshots/login.png)
+*Login ekranı ile kullanıcı girişi yapabilirsiniz.*
+
+![Register](/src/assets/screenshots/register.png)
+*Yeni kullanıcı kayıt ekranı.*
+
+![Layout](/src/assets/screenshots/layout.png)
+*Kullanıcı dashboard örneği.*
 
 Bu proje MIT lisansı ile lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakabilirsiniz.
