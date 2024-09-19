@@ -2,7 +2,7 @@ import { RouterModule, Routes, Router } from "@angular/router";
 import { NgModule, ModuleWithProviders, Type } from "@angular/core";
 import { LayoutComponent } from "./layout.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { MemberComponent } from "./member/member.component";
+import { PersonComponent } from "./person/person.component";
 
 export const appRoutes: Routes = [
     {
@@ -11,7 +11,7 @@ export const appRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'member', component: MemberComponent },
+            { path: 'person', component: PersonComponent },
         ]
     }
 ]

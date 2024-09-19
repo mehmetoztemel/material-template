@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ITokenResponse } from '../models/tokenresponse';
-import { ApplicationConfig } from '../../app.config';
+import { AppConfig } from '../../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { ApplicationConfig } from '../../app.config';
 export class AuthService {
 
   endPoint : string ="";
-  constructor(private http : HttpClient, private appConfig : ApplicationConfig) { 
+  constructor(private http : HttpClient, private appConfig : AppConfig) { 
     this.endPoint = appConfig.ApiUrl + 'auth/'
   }
   auth(data : any) : Observable<ITokenResponse>{

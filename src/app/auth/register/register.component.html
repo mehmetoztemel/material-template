@@ -8,18 +8,36 @@
             <mat-form-field class="full-width" appearance="outline">
                 <mat-label>First Name</mat-label>
                 <input matInput type="text" formControlName="firstName" required>
+                @if (registerForm.get('firstName').hasError('required')) {
+                <mat-error>First Name is required</mat-error>
+                }
             </mat-form-field>
             <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Last Name</mat-label>
                 <input matInput type="text" formControlName="lastName" required>
+                @if (registerForm.get('lastName').hasError('required')) {
+                <mat-error>Last Name is required</mat-error>
+                }
             </mat-form-field>
             <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Email Address</mat-label>
                 <input matInput type="email" formControlName="email" required>
+                @if (registerForm.get('email').hasError('required')) {
+                <mat-error>Email is required</mat-error>
+                }
+                @if ( registerForm.get('email').hasError('email')) {
+                <mat-error>Please enter a valid email address</mat-error>
+                }
             </mat-form-field>
             <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Password</mat-label>
                 <input matInput type="password" formControlName="password" required>
+                @if ( registerForm.get('password').hasError('required') ) {
+                <mat-error>Password is required</mat-error>
+                }
+                @if (registerForm.get('password').hasError('minlength') ) {
+                <mat-error> Password must be more than 3 characters</mat-error>
+                }
             </mat-form-field>
             <mat-card-actions class="card-action">
                 <button mat-raised-button color="primary" class="button" [disabled]="!registerForm.valid"

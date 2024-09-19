@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ApplicationConfig } from './app.config';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppConfig } from './app.config';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
-    ApplicationConfig,
+    AppConfig,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

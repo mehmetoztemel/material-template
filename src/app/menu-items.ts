@@ -7,9 +7,9 @@ export const menuItems: MenuItem[] = [
       label: 'Dashboard'
     },
     {
-      path: '/member',
+      path: '/person',
       icon: 'groups',
-      label: 'Members'
+      label: 'Persons'
     },
     // {
     //   path: '',

@@ -13,10 +13,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { MemberComponent } from './member/member.component';
+import { PersonComponent } from './person/person.component';
 
 @NgModule({
-  declarations: [LayoutComponent,DashboardComponent,MemberComponent],
+  declarations: [LayoutComponent,DashboardComponent,PersonComponent],
   imports: [
     CommonModule,
     LayoutRoutingModule,
