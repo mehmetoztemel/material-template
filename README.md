@@ -9,22 +9,6 @@
 - **Auth Interceptor'lar:** API çağrılarında güvenliği artıran ve yetkilendirmeyi yöneten interceptor'lar.
 - **Auth Guard:** Kullanıcı erişimini yönetmek için kullanılan koruyucular (guards).
 
-## Kurulum
-
-1. **Projeyi Klonlayın:**
-   ```bash
-   git clone https://github.com/mehmetoztemel/material-template.git
-   ```
-2. **Gerekli Bağımlılıkları Yükleyin:**
-   ```bash
-   cd material-template
-   npm install
-   ```
-3. **Projeyi Çalıştırın:**
-   ```bash
-   npm start
-   ```
-
 ## Kullanım
 
 - **Login & Register:** Login ve register sayfaları, kullanıcıların sisteme giriş yapmasını ve yeni kullanıcılar oluşturmasını sağlar.
@@ -32,7 +16,3 @@
 - **Auth Interceptor'lar:** API çağrılarında yetkilendirme bilgilerini otomatik olarak ekler.
 - **Auth Guard:** Belirli sayfalara erişimi yönetir ve korur.
 Bu proje MIT lisansı ile lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakabilirsiniz.
-
----
-
-Bu şablon, projenin temel özelliklerini ve kullanım talimatlarını içerir. Bilgileri kendi ihtiyaçlarına göre özelleştirebilirsin.
