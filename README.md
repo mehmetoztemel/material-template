@@ -19,5 +19,3 @@
 ![login](https://github.com/user-attachments/assets/5b80d791-8996-4e98-9775-002e177aa514)
 ![register](https://github.com/user-attachments/assets/1471b901-1921-4e25-a260-83aef8504eef)
 ![layout](https://github.com/user-attachments/assets/7e1dce4c-746d-41ee-9a97-a16c005c195f)
-
-Bu proje MIT lisansı ile lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakabilirsiniz.

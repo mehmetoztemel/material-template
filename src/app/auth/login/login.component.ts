@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ILoginRequest } from '../../shared/models/loginrequest';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -27,26 +26,14 @@ export class LoginComponent implements OnInit {
   }
 
   Login() {
-    // let loginRequestModel: ILoginRequest = <ILoginRequest>{
-    //   UserName: this.form.username.value,
-    //   Password: this.form.password.value
-    // };
-
-    // this.authService.auth(loginRequestModel).subscribe(x=> {
-    //   localStorage.setItem("token", x.AccessToken)
-    //   localStorage.setItem("userName",loginRequestModel.UserName)
-    //   this.router.navigate([''], { skipLocationChange: true });
-    // });
     localStorage.setItem("userName","test")
     localStorage.setItem("token", "test")
-    // this.router.navigate([''], { skipLocationChange: true });
     this.router.navigateByUrl('');
   }
 
   Register(){
     localStorage.setItem("userName","test")
     localStorage.setItem("token", "test")
-    // this.router.navigate(['/auth/register']);
     this.router.navigateByUrl('auth/register');
   }
 

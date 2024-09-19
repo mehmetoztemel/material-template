@@ -6,7 +6,7 @@ import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/ro
   providedIn: 'root'
 })
 
-export class AuthGuard  {
+export class AuthGuard {
   constructor(private router: Router) { }
   canActivate(
     route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -14,7 +14,6 @@ export class AuthGuard  {
       return true;
     }
     else {
-      // this.router.navigate(['/auth/login'], { skipLocationChange: true });
       this.router.navigateByUrl('/auth/login', { skipLocationChange: true });
       return false;
     }
