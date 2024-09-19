@@ -15,4 +15,7 @@
 - **Generic Servis Yapısı:** Servisleri kullanarak API çağrılarınızı yönetebilirsiniz.
 - **Auth Interceptor'lar:** API çağrılarında yetkilendirme bilgilerini otomatik olarak ekler.
 - **Auth Guard:** Belirli sayfalara erişimi yönetir ve korur.
+
+![Örnek Resim](./assets/screenshots/layout.png)
+
 Bu proje MIT lisansı ile lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakabilirsiniz.
