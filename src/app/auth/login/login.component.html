@@ -1,4 +1,4 @@
-<div class="container login-container">
+<div class="login-container">
     <mat-card class="login-card">
         <mat-card-title style="text-align: center;">
             <h1>Login</h1>
@@ -14,7 +14,6 @@
                     @if ( loginForm.get('email').hasError('email')) {
                     <mat-error>Please enter a valid email address</mat-error>
                     }
-    
                 </mat-form-field>
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Password</mat-label>
@@ -24,17 +23,17 @@
                     }
                 </mat-form-field>
                 <div class="full-width">
-                    <mat-slide-toggle formControlName="rememberMe">Remember my email address</mat-slide-toggle>
+                    <mat-slide-toggle color="warn" formControlName="rememberMe">Remember my email address</mat-slide-toggle>
                 </div>
- 
             </form>
         </mat-card-content>
         <mat-card-actions class="card-action">
-            <button mat-raised-button color="primary" class="button" [disabled]="!loginForm.valid"
-                (click)="Login()">Login</button>
+            <button mat-raised-button color="primary" class="button" [disabled]="!loginForm.valid" (click)="Login()">
+                <mat-icon>login</mat-icon><span>Login</span></button>
             &nbsp;
-            <button mat-raised-button color="primary" class="button" (click)="Register()">Register</button>
+            <button mat-raised-button color="primary" class="button" (click)="Register()">
+                <mat-icon>how_to_reg</mat-icon><span>Register</span>
+            </button>
         </mat-card-actions>
-
     </mat-card>
 </div>

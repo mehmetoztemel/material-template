@@ -43,6 +43,10 @@ export class LayoutComponent implements OnInit {
 
 
   LogOut() {
-    this.router.navigateByUrl('auth/login')
+    const rememberMe = localStorage.getItem("rememberMe");
+    if(rememberMe == null ){
+      localStorage.clear();
+    }
+    this.router.navigateByUrl('auth/login');
   }
 }

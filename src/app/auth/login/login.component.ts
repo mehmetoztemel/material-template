@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 
@@ -13,27 +13,36 @@ import { AuthService } from '../../shared/services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  constructor(private router: Router, private authService : AuthService) { }
+  constructor(private router: Router, private authService: AuthService) { }
   ngOnInit(): void {
     this.createForm();
   }
   get form() { return this.loginForm.controls; }
   createForm() {
+    const savedUserEmail = localStorage.getItem('Email');
     this.loginForm = new FormGroup({
-      email: new FormControl('admin@admin.com', [Validators.required,Validators.email]),
+      email: new FormControl('admin@admin.com', [Validators.required, Validators.email]),
       password: new FormControl('admin', [Validators.required]),
+      rememberMe: new FormControl(savedUserEmail != null)
     });
   }
 
   Login() {
-    localStorage.setItem("userName","test")
-    localStorage.setItem("token", "test")
+    const rememberMe = this.form.rememberMe.value;
+    if (rememberMe) {
+      localStorage.setItem("Email", "test");
+      localStorage.setItem("rememberMe", rememberMe);
+    }
+    else {
+      localStorage.removeItem("Email");
+      localStorage.removeItem("rememberMe");
+    }
+    localStorage.setItem("UserInfo", "test");
+    localStorage.setItem("Token", "test");
     this.router.navigateByUrl('');
   }
 
-  Register(){
-    localStorage.setItem("userName","test")
-    localStorage.setItem("token", "test")
+  Register() {
     this.router.navigateByUrl('auth/register');
   }
 
