@@ -8,7 +8,7 @@ import { menuItems } from '../menu-items';
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class LayoutComponent implements OnInit {
 

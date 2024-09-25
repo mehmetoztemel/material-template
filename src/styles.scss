@@ -7,6 +7,10 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    // background: rgb(137, 154, 167);
+    // background: radial-gradient(circle, rgba(137, 154, 167, 1) 15%, rgba(118, 146, 180, 1) 85%);
+    background: rgb(84, 110, 122);
+    background: radial-gradient(circle, rgba(84, 110, 122, 1) 15%, rgba(47, 63, 71, 1) 85%);
 }
 
 .full-width {
@@ -22,29 +26,43 @@ body {
 .card-margin {
     margin: 25px;
 }
+.mat-mdc-card-outlined {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
+}
 
 /* Login and Register Card Settings*/
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    // flex-direction: column;
     box-sizing: border-box;
+    height: 100vh; /* Dikey ortalamak için */
+    padding: 10px; /* Kenarlardan boşluk */
 }
 
 .login-card {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 30px !important;
+    width: 100%; /* Kartın genişliğini %100 yap */
+    max-width: 400px; /* Maksimum genişlik belirle */
+    margin: 0 auto; /* Ortalamak için */
+    padding: 20px; /* İçerik için boşluk */
+    border-radius: 10px !important; /* Kenarları yuvarla */
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1) !important;
 }
 
 .button {
-    width: 250px;
+    // width: 250px;
+    width: 100%;
 }
 
 .card-action {
     display: flex;
-    justify-content: center;
+    flex-direction: row; /* Varsayılan olarak yan yana */
+}
+
+@media screen and (max-width: 600px) {
+    /* Mobil cihazlar için */
+    .card-action {
+        flex-direction: column !important; /* Mobilde alt alta */
+    }
 }

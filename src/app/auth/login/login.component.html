@@ -3,31 +3,38 @@
         <mat-card-title style="text-align: center;">
             <h1>Login</h1>
         </mat-card-title>
-        <form [formGroup]="loginForm">
-            <mat-form-field class="full-width" appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email" required>
-                @if (loginForm.get('email').hasError('required') ) {
-                <mat-error>Email is required</mat-error>
-                }
-                @if ( loginForm.get('email').hasError('email')) {
-                <mat-error>Please enter a valid email address</mat-error>
-                }
+        <mat-card-content>
+            <form [formGroup]="loginForm">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email" required>
+                    @if (loginForm.get('email').hasError('required') ) {
+                    <mat-error>Email is required</mat-error>
+                    }
+                    @if ( loginForm.get('email').hasError('email')) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                    }
+    
+                </mat-form-field>
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password" required>
+                    @if (loginForm.get('password').hasError('required')) {
+                    <mat-error>Password is required</mat-error>
+                    }
+                </mat-form-field>
+                <div class="full-width">
+                    <mat-slide-toggle formControlName="rememberMe">Remember my email address</mat-slide-toggle>
+                </div>
+ 
+            </form>
+        </mat-card-content>
+        <mat-card-actions class="card-action">
+            <button mat-raised-button color="primary" class="button" [disabled]="!loginForm.valid"
+                (click)="Login()">Login</button>
+            &nbsp;
+            <button mat-raised-button color="primary" class="button" (click)="Register()">Register</button>
+        </mat-card-actions>
 
-            </mat-form-field>
-            <mat-form-field class="full-width" appearance="outline">
-                <mat-label>Password</mat-label>
-                <input matInput type="password" formControlName="password" required>
-                @if (loginForm.get('password').hasError('required')) {
-                <mat-error>Password is required</mat-error>
-                }
-            </mat-form-field>
-            <mat-card-actions class="card-action">
-                <button mat-raised-button color="primary" class="button" [disabled]="!loginForm.valid"
-                    (click)="Login()">Login</button>
-                &nbsp;
-                <button mat-raised-button color="primary" class="button" (click)="Register()">Register</button>
-            </mat-card-actions>
-        </form>
     </mat-card>
 </div>

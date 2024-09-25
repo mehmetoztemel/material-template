@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   selector: 'app-person',
   templateUrl: './person.component.html',
   styleUrl: './person.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class PersonComponent implements OnInit {
   ngOnInit(): void {

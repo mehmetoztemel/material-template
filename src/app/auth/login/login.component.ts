@@ -7,7 +7,7 @@ import { AuthService } from '../../shared/services/auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 
 export class LoginComponent implements OnInit {

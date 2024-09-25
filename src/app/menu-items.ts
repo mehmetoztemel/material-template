@@ -2,7 +2,7 @@ import { MenuItem } from "./shared/models/menuitem";
 
 export const menuItems: MenuItem[] = [
     {
-      path: '',
+      path: '/dashboard',
       icon: 'home',
       label: 'Dashboard'
     },

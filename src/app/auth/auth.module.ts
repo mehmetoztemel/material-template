@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -21,7 +22,8 @@ import { RegisterComponent } from './register/register.component';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSlideToggleModule
   ]
 })
 export class AuthModule { }
