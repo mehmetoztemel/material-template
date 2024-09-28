@@ -6,6 +6,7 @@
 // Move the content down so that it won't be hidden by the toolbar
 mat-sidenav {
     padding-top: 3.5rem;
+    box-shadow: 6px 0 6px rgba(0, 0, 0, 0.1);
 
     @media screen and (min-width: 600px) {
         padding-top: 4rem;
@@ -23,8 +24,17 @@ mat-sidenav {
 }
 
 // Move the content down so that it won't be hidden by the toolbar
+// mat-sidenav-content {
+//     padding-top: 3.5rem;
+//     @media screen and (min-width: 600px) {
+//         padding-top: 4rem;
+//     }
+// }
+
 mat-sidenav-content {
+    background-color: rgb(91 158 191 / 7%) !important; /* sonradan eklendi*/
     padding-top: 3.5rem;
+
     @media screen and (min-width: 600px) {
         padding-top: 4rem;
     }

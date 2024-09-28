@@ -23,15 +23,15 @@
                     }
                 </mat-form-field>
                 <div class="full-width">
-                    <mat-slide-toggle color="warn" formControlName="rememberMe">Remember my email address</mat-slide-toggle>
+                    <mat-slide-toggle color="warn" formControlName="rememberMe">Remember Me</mat-slide-toggle>
                 </div>
             </form>
         </mat-card-content>
         <mat-card-actions class="card-action">
-            <button mat-raised-button color="primary" class="button" [disabled]="!loginForm.valid" (click)="Login()">
+            <button mat-raised-button color="primary" class="login-button" [disabled]="!loginForm.valid" (click)="Login()">
                 <mat-icon>login</mat-icon><span>Login</span></button>
             &nbsp;
-            <button mat-raised-button color="primary" class="button" (click)="Register()">
+            <button mat-raised-button color="primary" class="login-button" (click)="Register()">
                 <mat-icon>how_to_reg</mat-icon><span>Register</span>
             </button>
         </mat-card-actions>

@@ -19,26 +19,27 @@ export class LoginComponent implements OnInit {
   }
   get form() { return this.loginForm.controls; }
   createForm() {
-    const savedUserEmail = localStorage.getItem('Email');
+    const userEmail = localStorage.getItem('Email');
+    const rememberMe = localStorage.getItem("rememberMe");
     this.loginForm = new FormGroup({
-      email: new FormControl('admin@admin.com', [Validators.required, Validators.email]),
-      password: new FormControl('admin', [Validators.required]),
-      rememberMe: new FormControl(savedUserEmail != null)
+      email: new FormControl(userEmail != null?  localStorage.getItem("Email") :"" , [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+      rememberMe: new FormControl(rememberMe == null ? false : true)
     });
   }
 
   Login() {
     const rememberMe = this.form.rememberMe.value;
     if (rememberMe) {
-      localStorage.setItem("Email", "test");
+      localStorage.setItem("Email", "admin@admin.com");
       localStorage.setItem("rememberMe", rememberMe);
     }
     else {
       localStorage.removeItem("Email");
       localStorage.removeItem("rememberMe");
     }
-    localStorage.setItem("UserInfo", "test");
-    localStorage.setItem("Token", "test");
+    localStorage.setItem("UserInfo", "admin");
+    localStorage.setItem("Token", "admin");
     this.router.navigateByUrl('');
   }
 
