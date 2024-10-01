@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-
-
   constructor(private router: Router) { }
   ngOnInit(): void {
     this.createForm();

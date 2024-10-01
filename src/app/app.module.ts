@@ -8,6 +8,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppConfig } from './app.config';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 
 @NgModule({
@@ -22,12 +23,17 @@ import { AppConfig } from './app.config';
   providers: [
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
+    provideNativeDateAdapter(),
     AppConfig,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'tr-TR'
     }
   ],
   bootstrap: [AppComponent]
