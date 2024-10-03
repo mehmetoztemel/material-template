@@ -17,6 +17,7 @@ import { PersonComponent } from './person/person.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { EsiTableComponent } from '../shared/components/esi-table/esi-table.component';
 
 @NgModule({
   declarations: [LayoutComponent,DashboardComponent,PersonComponent],
@@ -36,7 +37,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatCardModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    EsiTableComponent
   ]
 })
 export class LayoutModule { }

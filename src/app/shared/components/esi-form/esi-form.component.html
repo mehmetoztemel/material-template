@@ -1,0 +1,76 @@
+<div *ngIf="forms">
+    <form [formGroup]="formGroup">
+        <div *ngFor="let f of forms" [ngSwitch]="f.type">
+            <!-- Text Input -->
+            <mat-form-field *ngSwitchCase="'text'" class="full-width" [ngClass]="f.hide ? 'hideClass' : ''"
+                appearance="outline">
+                <mat-label>{{f.label}}</mat-label>
+                <input matInput [value]="f.value" formControlName="{{f.control}}" [required]="f.req"
+                    [readonly]="f.readonly">
+            </mat-form-field>
+
+            <!-- Number Input -->
+            <mat-form-field *ngSwitchCase="'number'" class="full-width" [ngClass]="f.hide ? 'hideClass' : ''"
+                appearance="outline">
+                <mat-label>{{f.label}}</mat-label>
+                <input matInput type="number" [min]="f.min" [max]="f.max" [value]="f.value"
+                    formControlName="{{f.control}}" [required]="f.req">
+            </mat-form-field>
+
+            <!-- Email Input -->
+            <mat-form-field *ngSwitchCase="'email'" class="full-width" [ngClass]="f.hide ? 'hideClass' : ''"
+                appearance="outline">
+                <mat-label>{{f.label}}</mat-label>
+                <input matInput type="email" [value]="f.value" formControlName="{{f.control}}" [required]="f.req"
+                    [readonly]="f.readonly">
+            </mat-form-field>
+
+            <!-- Password Input -->
+            <mat-form-field *ngSwitchCase="'password'" class="full-width" [ngClass]="f.hide ? 'hideClass' : ''"
+                appearance="outline">
+                <mat-label>{{f.label}}</mat-label>
+                <input matInput type="password" [value]="f.value" formControlName="{{f.control}}" [required]="f.req"
+                    [readonly]="f.readonly">
+            </mat-form-field>
+
+            <!-- Textarea Input -->
+            <mat-form-field *ngSwitchCase="'textarea'" class="full-width" [ngClass]="f.hide ? 'hideClass' : ''"
+                appearance="outline">
+                <mat-label>{{f.label}}</mat-label>
+                <textarea matInput [value]="f.value" formControlName="{{f.control}}" [required]="f.req"></textarea>
+            </mat-form-field>
+
+            <!-- Dropdown Input -->
+            <mat-form-field *ngSwitchCase="'dropdown'" class="full-width" [ngClass]="f.hide ? 'hideClass' : ''"
+                appearance="outline">
+                <mat-label>{{f.label}}</mat-label>
+                <mat-select *ngIf="!f.onChange" formControlName="{{f.control}}">
+                    <mat-option *ngFor="let grp of f.options" [value]="grp.value">
+                        {{grp.viewValue}}
+                    </mat-option>
+                </mat-select>
+                <mat-select *ngIf="f.onChange" formControlName="{{f.control}}">
+                    <mat-option *ngFor="let grp of f.options" [value]="grp.value"
+                        (onSelectionChange)="f.onChange($event.source)">
+                        {{grp.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Checkbox Input -->
+            <mat-checkbox *ngSwitchCase="'checkbox'" color="primary" class="example-margin"
+                formControlName="{{f.control}}" (change)="f.onChange($event.source)">
+                {{f.label}}
+            </mat-checkbox>
+
+            <!-- Datepicker Input -->
+            <mat-form-field *ngSwitchCase="'date'" class="full-width" [ngClass]="f.hide ? 'hideClass' : ''">
+                <mat-label>{{f.label}}</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="{{f.control}}">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+        </div>
+    </form>
+</div>

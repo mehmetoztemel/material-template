@@ -1,0 +1,54 @@
+<h1 mat-dialog-title style="text-align: center;">
+  {{data.header}}
+</h1>
+
+<div class="dialog-container" style="padding: 10px; width: 95%; max-width: 100vw; margin: auto;">
+
+  <!-- Card Component -->
+  <div *ngIf="data.card" mat-dialog-content>
+    <mat-card appearance="outlined" class="responsive-card">
+      <mat-card-title style="text-align: center;">
+        {{data.card.header}}
+      </mat-card-title>
+      <mat-card-content>
+        <!-- Form Inside Card -->
+        <div *ngIf="data.card.formGroup && data.card.formType">
+          <esi-form [formGroup]="data.card.formGroup" [forms]="data.card.formType"></esi-form>
+        </div>
+
+        <!-- Table Inside Card -->
+        <div *ngIf="data.card.table">
+          <esi-table [value]="data.card.table" [columns]="data.card.col" [displayedColumns]="data.card.dspCol"></esi-table>
+        </div>
+
+        <!-- Label Inside Card -->
+        <div *ngIf="data.card.label" mat-dialog-content>
+          <label>{{data.card.label}}</label>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Standalone Table -->
+  <div *ngIf="data.table" mat-dialog-content>
+    <esi-table [value]="data.table" [columns]="data.col" [displayedColumns]="data.dspCol"></esi-table>
+  </div>
+
+  <!-- Standalone Form -->
+  <div *ngIf="data.formGroup && data.formType">
+    <esi-form [formGroup]="data.formGroup" [forms]="data.formType"></esi-form>
+  </div>
+
+  <!-- Standalone Label -->
+  <div *ngIf="data.label" mat-dialog-content>
+    <label>{{data.label}}</label>
+  </div>
+
+  <div mat-dialog-actions class="divButtonClass">
+    <button class="dialog-button" *ngIf="data.button1" mat-raised-button color="primary" (click)="onSave()"
+        [disabled]="data.formGroup ? data.formGroup.invalid : data.card ? 
+    data.card.formGroup.invalid : false">{{data.button1}}</button>
+    <button class="dialog-button" *ngIf="data.button2" mat-raised-button color="warn"
+        (click)="closeDialog()">{{data.button2}}</button>
+</div>
+</div>

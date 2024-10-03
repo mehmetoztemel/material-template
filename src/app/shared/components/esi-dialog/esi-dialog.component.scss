@@ -1,0 +1,44 @@
+:host {
+    display: block;
+  }
+  .dialog-container {
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    width: 95%;
+  }
+
+  .responsive-card {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .responsive-card {
+      max-width: 95%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .responsive-card {
+      max-width: 100%;
+      padding: 5px;
+    }
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .divButtonClass{
+    display: flex;
+    justify-content: flex-end;
+  }
+  .dialog-button{
+    width: 28%;
+    height: 45px;
+  }
+  

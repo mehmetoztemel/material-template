@@ -15,10 +15,10 @@
 // hue. Available color palettes: https://material.io/design/color/
 
 $theme-primary: mat.m2-define-palette(mat.$m2-blue-gray-palette, 800);
-$theme-accent: mat.m2-define-palette(mat.$m2-yellow-palette);
+$theme-accent: mat.m2-define-palette(mat.$m2-yellow-palette,700);
 
 // The warn palette is optional (defaults to red).
-$theme-warn: mat.m2-define-palette(mat.$m2-red-palette);
+$theme-warn: mat.m2-define-palette(mat.$m2-red-palette,700);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
