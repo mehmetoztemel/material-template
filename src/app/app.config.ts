@@ -6,4 +6,5 @@ export class AppConfig {
     // public Server = 'http://192.168.5.128:8000/';
     public Api: string = 'api/';
     public ApiUrl = this.Server + this.Api;
+    public isMobile : boolean = false; 
 }

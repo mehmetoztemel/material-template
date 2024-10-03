@@ -1,3 +1,47 @@
 :host {
   display: block;
 }
+
+.mat-mdc-row:nth-child(even) {
+  background-color: #e7e6e6;
+}
+.mobile-label {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  td.mat-mdc-cell:first-of-type,
+  td.mat-mdc-cell:last-of-type {
+    padding: 5px 20px;
+    width: 100% !important;
+    flex: 1 1 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+
+  td.mat-mdc-cell {
+    padding: 5px 20px;
+    display: flex;
+    width: 100% !important;
+    flex: 1 1 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-label {
+    width: 120px;
+    font-weight: bold;
+    display: inline-table;
+    text-align: left !important;
+  }
+
+  .mat-mdc-footer-row,
+  .mat-mdc-row {
+    flex-direction: column;
+  }
+
+  .mat-mdc-header-row {
+    display: none;
+  }
+
+}

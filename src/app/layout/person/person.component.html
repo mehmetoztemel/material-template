@@ -3,6 +3,58 @@
         Persons
     </mat-card-title>
     <mat-card-content>
-        <p>Persons are working...</p>
+        <div>
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container [matColumnDef]="column.field" *ngFor="let column of cols">
+                    <th mat-header-cell *matHeaderCellDef [style.width]="column.style"
+                        [style.text-align]="column.align">
+                        @if (column.type != 'button') {
+                        <span mat-sort-header>{{column.header}}</span>
+                        }
+                    </th>
+                    <td mat-cell [ngSwitch]="column.type" *matCellDef="let element" [style.width]="column.style"
+                        [style.text-align]="column.align">
+                        <span *ngIf="appConfig ? (column.type == 'button' ? false : true) : true"
+                            class="mobile-label">{{column.header}}</span>
+                        <ng-container *ngSwitchCase="'text'">
+                            <span class="full-width">
+                                {{element[column.field]}}
+                            </span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'date'">
+                            <span class="full-width">
+                                {{element[column.field] | date : 'dd.MM.yyyy'}}
+                            </span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'num0'">
+                            <span class="full-width">
+                                {{element[column.field] | number :'.0-0'}}
+                            </span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'num2'">
+                            <span class="full-width">
+                                {{element[column.field] | number :'.2-2'}}
+                            </span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'num5'">
+                            <span class="full-width">
+                                {{element[column.field] | number :'.5-5'}}
+                            </span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'button'">
+                            <button mat-raised-button class="full-width" color="primary"
+                                (click)="column.click(element)">
+                                <mat-icon>assignment_turned_in</mat-icon>
+                                <label>{{column.buttonLabel}}</label>
+                            </button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr><br>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
     </mat-card-content>
 </mat-card>

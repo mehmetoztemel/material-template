@@ -10,7 +10,7 @@ export const menuItems: MenuItem[] = [
       path: '/person',
       icon: 'groups',
       label: 'Persons'
-    },
+    }
     // {
     //   path: '',
     //   icon: 'list_alt',
@@ -22,9 +22,21 @@ export const menuItems: MenuItem[] = [
     //       label: 'Haberler'
     //     },
     //     {
-    //       path: '/dashboard',
+    //       path: '',
     //       icon: 'list_alt',
-    //       label: 'Tesisler'
+    //       label: 'Tesisler',
+    //       subItems: [
+    //         {
+    //           path: '',
+    //           icon: 'home',
+    //           label: 'Haberler'
+    //         },
+    //         {
+    //           path: '/dashboard',
+    //           icon: 'list_alt',
+    //           label: 'Tesisler'
+    //         }
+    //       ]
     //     }
     //   ]
     // }

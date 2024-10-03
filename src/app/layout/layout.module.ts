@@ -14,6 +14,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PersonComponent } from './person/person.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [LayoutComponent,DashboardComponent,PersonComponent],
@@ -30,7 +33,10 @@ import { PersonComponent } from './person/person.component';
     MatProgressBarModule,
     MatTooltipModule,
     MatExpansionModule,
-    MatCardModule
+    MatCardModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ]
 })
 export class LayoutModule { }

@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit, signal, ViewChild } from '@
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { menuItems } from '../menu-items';
+import { AppConfig } from '../app.config';
 
 @Component({
   selector: 'app-layout',
@@ -14,25 +15,25 @@ export class LayoutComponent implements OnInit {
 
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-  isMobile = true;
+  // isMobile = true;
   isCollapsed = false;
   userInfo: string;
   menuItems = menuItems;
-  constructor(private observer: BreakpointObserver, private router: Router) { }
+  constructor(private observer: BreakpointObserver, private router: Router, public appConfig: AppConfig) { }
 
   ngOnInit() {
     this.userInfo = localStorage.getItem("userName");
     this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
       if (screenSize.matches) {
-        this.isMobile = true;
+        this.appConfig.isMobile = true;
       } else {
-        this.isMobile = false;
+        this.appConfig.isMobile = false;
       }
     });
   }
 
   toggleMenu() {
-    if (this.isMobile) {
+    if (this.appConfig.isMobile) {
       this.sidenav.toggle();
       this.isCollapsed = false;
     } else {
