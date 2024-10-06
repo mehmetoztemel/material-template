@@ -13,4 +13,7 @@ export interface IColumns {
     disable?: string;
     buttonLabel?: string;
     align?: string;
+    filter?: string;
+    opt?: any[];
+    // for dropdown
   }

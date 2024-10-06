@@ -4,11 +4,64 @@
             @if (column.type != 'button') {
             <span mat-sort-header>{{column.header}}</span>
             }
+            <ng-container *ngIf="isFiltered">
+                <div [ngSwitch]="column.filter">
+                    <ng-container *ngSwitchCase="'text'">
+                        <mat-icon class="fiterIcon" matPrefix> text_fields</mat-icon>
+                        <input matInput type="text" class="filterElement" (keyup)="applyFilter($event, column.field)"
+                            autocomplete="off">
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'numericText'">
+                        <mat-icon class="fiterIcon" matPrefix>receipt</mat-icon>
+                        <input matInput type="text" class="filterElement" (keyup)="applyFilter($event, column.field)"
+                            autocomplete="off">
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'multiSelect'">
+                        <mat-select #dd class="filterElement"
+                            (selectionChange)="multiplefilterColumns($event.value, column.field)" multiple>
+                            <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
+                                {{grp.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon class="fiterIconRight" matSuffix
+                            (click)="clearSelection(dd, column.field)">clear</mat-icon>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'dropdown'">
+                        <mat-select #dd class="filterElement"
+                            (selectionChange)="filterColumns($event.value, column.field)">
+                            <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
+                                {{grp.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon class="fiterIconRight" matSuffix
+                            (click)="filterColumns(dd.value= '',column.field)">clear</mat-icon>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'date'">
+                        <mat-icon class="fiterIcon" matPrefix>event_available</mat-icon>
+                        <input #inpt matInput [matDatepicker]="picker" autocomplete="off" placeholder=""
+                            class="filterElement" (click)="picker.open()"
+                            (dateInput)="dateFilter(inpt.value,column.field)" readonly="true">
+                        <mat-datepicker #picker>
+                            <mat-datepicker-actions>
+                                <button mat-button matDatepickerCancel>Cancel</button>
+                                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                            </mat-datepicker-actions>
+                        </mat-datepicker>
+                        <mat-icon class="fiterIconRight" matSuffix
+                            (click)="dateFilter(inpt.value = '',column.field)">clear</mat-icon>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <input style="border: none; margin-bottom: 7px;" type="text" aria-label="Departure station"
+                            class="filterElement" matInput [readonly]="true" autocomplete="off">
+                    </ng-container>
+                </div>
+            </ng-container>
         </th>
         <td mat-cell [ngSwitch]="column.type" *matCellDef="let element" [style.width]="column.style"
             [style.text-align]="column.align">
-            <span *ngIf="appConfig ? (column.type == 'button' ? false : true) : true"
-                class="mobile-label">{{column.header}}</span>
+            <span *ngIf="appConfig.isMobile ? (column.type == 'button' ? false : true) : true"
+                class="mobile-label">{{column.header}}&nbsp;:</span>
             <ng-container *ngSwitchCase="'text'">
                 <span class="full-width">
                     {{element[column.field]}}
@@ -45,5 +98,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true;"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr><br>
 </table>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-</mat-paginator>
+<ng-container *ngIf="showPaginator">
+    <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons>
+    </mat-paginator></ng-container>

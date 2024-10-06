@@ -3,11 +3,56 @@
 }
 
 .mat-mdc-row:nth-child(even) {
-  background-color: #e7e6e6;
+  background-color: rgb(91 158 191 / 7%) !important;
 }
 .mobile-label {
   display: none;
 }
+
+// table solid
+.mat-mdc-table {
+  border: 1px solid rgba(173, 172, 172, 0.3019607843);
+  border-radius: 5px;
+  border-bottom-style: solid;
+  padding: 10px;
+}
+
+// for Filter >>
+::ng-deep th.mat-mdc-header-cell {
+  align-content: end;
+  padding: 0px 5px;
+  padding-bottom: 10px !important;
+  // .ng-star-inserted{
+  //   display: flex !important;
+  //   align-items: center !important;
+  // }
+}
+.fiterIcon {
+  font-size: 14px;
+  width: 14px;
+  position: absolute;
+  // margin-top: 5px;
+  margin-left: 2px;
+  align-content: center;
+}
+
+.fiterIconRight {
+  font-size: 15px;
+  margin-left: -20px;
+  width: 15px;
+}
+
+
+.filterElement {
+  width: calc(100% - 22px);
+  // margin-bottom: 5px;
+  border: solid 0.5px silver;
+  border-radius: 0.3em;
+  padding-left: 18px;
+  height: 20px;
+}
+
+// << for Filter End
 
 @media (max-width: 800px) {
   td.mat-mdc-cell:first-of-type,
