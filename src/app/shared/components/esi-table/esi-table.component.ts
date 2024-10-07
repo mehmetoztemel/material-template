@@ -6,12 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { IColumns } from '../../models/columns';
+import { IColumns } from '../../models/components/columns';
 import { AppConfig } from '../../../app.config';
 import { MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
-import { IDropdownOption } from '../../models/dropdownOption';
+import { IDropdownOption } from '../../models/components/dropdownOption';
 
 @Component({
   selector: 'esi-table',

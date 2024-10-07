@@ -72,12 +72,14 @@ align-items: center;
   margin-top: 2px !important;
 }
 ::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked{
-  background-color:rgb(45 85 105 / 76%) !important;
+  // background-color:rgb(45 85 105 / 76%) !important;
   border-color: rgba(0, 0, 0, 0) !important;
- 
+  background-color: #37474f !important;
 }
 ::ng-deep .mat-pseudo-checkbox-full {
-  border-color: rgb(55 71 79 / 76%) !important;
+  // border-color: rgb(55 71 79 / 76%) !important;
+
+  border-color: #37474f !important;
 }
 ::ng-deep .mat-select-trigger {
   min-width: 80vw !important;
@@ -119,4 +121,11 @@ align-items: center;
     display: none;
   }
 
+}
+
+.tableButton {
+  .mat-icon {
+    margin: 3px 0px;
+    vertical-align: unset;
+  }
 }

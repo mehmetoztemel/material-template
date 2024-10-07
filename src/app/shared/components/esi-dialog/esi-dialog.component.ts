@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, ComponentRef, Inject, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { EsiTableComponent } from '../esi-table/esi-table.component';
 import { CommonModule } from '@angular/common';
@@ -30,9 +30,22 @@ export class EsiDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<EsiDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-
+  @ViewChild('dynamicComponentContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
+  componentRef: ComponentRef<any>;
   ngOnInit() {
-    console.log('Dialog got', this.data);
+
+  }
+
+  ngAfterViewInit() {
+    if (this.data.component && this.container) {
+      this.container.clear(); // Önceki bileşenleri temizler
+      this.componentRef = this.container.createComponent(this.data.component as Type<any>);
+    }
+  }
+  ngOnDestroy() {
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
   }
 
   closeDialog() {
@@ -42,13 +55,13 @@ export class EsiDialogComponent implements OnInit {
   onSave() {
     if (this.data.formGroup) {
       console.log("1");
-
       this.dialogRef.close(this.data.formGroup.value);
     }
     else if (this.data.card.formGroup) {
+      console.log('2');
+      
       this.dialogRef.close(this.data.card.formGroup.value);
     }
-
     else if (this.data.label) {
       console.log("3");
       this.dialogRef.close(true);

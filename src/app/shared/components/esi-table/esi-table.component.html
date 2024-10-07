@@ -88,8 +88,8 @@
                 </span>
             </ng-container>
             <ng-container *ngSwitchCase="'button'">
-                <button mat-raised-button class="full-width" color="{{column.color}}" (click)="column.click(element)">
-                    <mat-icon>assignment_turned_in</mat-icon>
+                <button mat-raised-button class="full-width tableButton" color="{{column.color}}" (click)="column.click(element)">
+                    <mat-icon>{{column.icon}}</mat-icon>
                     <label>{{column.buttonLabel}}</label>
                 </button>
             </ng-container>
