@@ -11,6 +11,7 @@ import { AppConfig } from '../../../app.config';
 import { MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { IDropdownOption } from '../../models/dropdownOption';
 
 @Component({
   selector: 'esi-table',
@@ -34,6 +35,8 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class EsiTableComponent implements OnInit {
 
+  dropdownOptions: IDropdownOption[] = [];
+  closeIcon: boolean = false;
   @Input() value: any[];
   @Input() columns: IColumns[] = [];
   @Input() displayedColumns: string[] = [];
@@ -60,41 +63,20 @@ export class EsiTableComponent implements OnInit {
     if (this.showPaginator) {
       this.dataSource.paginator = this.paginator;
     }
-
+    
   }
 
-  setData() {
-    this.dataSource = new MatTableDataSource(this.value);
-    this.dataSource.sort = this.sort;
+  setData(source?: any[]) {
+    if (source == null) {
+      this.dataSource = new MatTableDataSource(this.value);
+      this.dataSource.sort = this.sort;
+    }
+    else {
+      this.dataSource = new MatTableDataSource(source);
+      this.dataSource.sort = this.sort;
+    }
+    this.dataSource.paginator = this.paginator;
   }
-
-  //#region forFilter
-  applyFilter1(event: Event, colName: string) {
-    let filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filteredData = this.value.filter((a: any) => {
-      return (
-        a[colName]
-          .toString()
-          .toLowerCase()
-          .indexOf(filterValue.toLowerCase()) !== -1
-      );
-    });
-    this.dataSource = new MatTableDataSource(this.dataSource.filteredData);
-    this.onFilter.emit(this.dataSource.filteredData);
-  }
-
-  dateFilter1(event: any, colName: string) {
-    let filterValue = event;
-    this.dataSource.filteredData = this.value.filter((a: any) => {
-      return (
-        new Date(a[colName]).toLocaleDateString()
-          .indexOf(filterValue.toLowerCase()) !== -1
-      );
-    });
-    this.dataSource = new MatTableDataSource(this.dataSource.filteredData);
-    this.onFilter.emit(this.dataSource.filteredData);
-  }
-  //#endregion
 
   //#region Düzenlemiş Filtreleme Metotları
 
@@ -106,8 +88,9 @@ export class EsiTableComponent implements OnInit {
       return columnValue.includes(filterValue);
     });
     // MatTable'daki veriyi güncelleme
-    this.dataSource = new MatTableDataSource(filteredData);
-    this.dataSource.sort = this.sort;
+    // this.dataSource = new MatTableDataSource(filteredData);
+    // this.dataSource.sort = this.sort;
+    this.setData(filteredData);
     // Filtreleme sonrası event tetikleme
     this.onFilter.emit(filteredData);
   }
@@ -118,61 +101,63 @@ export class EsiTableComponent implements OnInit {
       const itemDate = new Date(item[colName]).toLocaleDateString();
       return itemDate.indexOf(filterValue) !== -1;
     });
-
     // MatTable'daki veriyi güncelleme
-    this.dataSource = new MatTableDataSource(filteredData);
-    this.dataSource.sort = this.sort;
+    // this.dataSource = new MatTableDataSource(filteredData);
+    // this.dataSource.sort = this.sort;
+    this.setData(filteredData);
     // Filtreleme sonrası event tetikleme
     this.onFilter.emit(filteredData);
   }
 
-  filterColumns(selectedValue: string, colName: string) {
-
+  dropDownFilterColumns(selectedValue: string, colName: string) {
     if (selectedValue != '') {
+      this.closeIcon = true;
       // Seçilen değere göre filtreleme işlemi
       const filteredData = this.value.filter((item: any) => {
         return item[colName] === selectedValue;
       });
-
       // MatTable verisini güncelleme
-      this.dataSource = new MatTableDataSource(filteredData);
-      this.dataSource.sort = this.sort;
+      // this.dataSource = new MatTableDataSource(filteredData);
+      // this.dataSource.sort = this.sort;
+      this.setData(filteredData);
       // Filtreleme sonrası event tetikleme
       this.onFilter.emit(filteredData);
     }
     else {
       // MatTable verisini güncelleme
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.sort = this.sort;
-    }
-
-
+      // this.dataSource = new MatTableDataSource(this.value);
+      // this.dataSource.sort = this.sort;
+      this.setData();
+      this.closeIcon = false;
+    }    
   }
 
-  multiplefilterColumns(selectedValues: string[], colName: string) {
+  multiSelectFilterColumns(selectedValues: string[], colName: string) {
     if (selectedValues.length > 0) {
+      this.closeIcon = true;
       // Seçilen değerlere göre filtreleme işlemi
       const filteredData = this.value.filter((item: any) => {
         return selectedValues.includes(item[colName]);
       });
-
       // MatTable verisini güncelleme
-      this.dataSource = new MatTableDataSource(filteredData);
-      this.dataSource.sort = this.sort;
-
+      // this.dataSource = new MatTableDataSource(filteredData);
+      // this.dataSource.sort = this.sort;
+      this.setData(filteredData);
       // Filtreleme sonrası event tetikleme
       this.onFilter.emit(filteredData);
     } else {
       // Seçim olmadığında tüm veriyi göster
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.sort = this.sort;
+      // this.dataSource = new MatTableDataSource(this.value);
+      // this.dataSource.sort = this.sort;
+      this.setData();
+      this.closeIcon = false;
     }
   }
 
-  clearSelection(dd: any, colName: string) {
+  clearDropDownSelection(dd: any, colName: string) {
     // Seçimleri temizle
     dd.value = [];
-    this.multiplefilterColumns([], colName);
+    this.multiSelectFilterColumns([], colName);
   }
   //#endregion
 }

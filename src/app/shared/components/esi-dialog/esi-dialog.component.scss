@@ -19,12 +19,14 @@
    margin: auto;
 
    .main-content {
-     padding: 10px 15px !important;
+     padding: 0px 15px !important;
    }
+
  }
 
  ::ng-deep .mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
    padding: 0 !important;
+  //  max-height: 350px;
  }
 
  .mat-mdc-dialog-container .mat-mdc-dialog-content {

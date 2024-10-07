@@ -5,7 +5,7 @@
             <span mat-sort-header>{{column.header}}</span>
             }
             <ng-container *ngIf="isFiltered">
-                <div [ngSwitch]="column.filter">
+                <div class="filterContent" [ngSwitch]="column.filter" >
                     <ng-container *ngSwitchCase="'text'">
                         <mat-icon class="fiterIcon" matPrefix> text_fields</mat-icon>
                         <input matInput type="text" class="filterElement" (keyup)="applyFilter($event, column.field)"
@@ -17,24 +17,24 @@
                             autocomplete="off">
                     </ng-container>
                     <ng-container *ngSwitchCase="'multiSelect'">
-                        <mat-select #dd class="filterElement"
-                            (selectionChange)="multiplefilterColumns($event.value, column.field)" multiple>
+                        <mat-select #dd class="filterElement" [ngClass]="closeIcon && dd.value!='' ? 'openD' : ''"
+                            (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
                             <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
                                 {{grp.viewValue}}
                             </mat-option>
                         </mat-select>
-                        <mat-icon class="fiterIconRight" matSuffix
-                            (click)="clearSelection(dd, column.field)">clear</mat-icon>
+                        <mat-icon *ngIf="closeIcon && dd.value!=''" class="fiterIconRight"  matSuffix
+                            (click)="clearDropDownSelection(dd, column.field)">clear</mat-icon>
                     </ng-container>
                     <ng-container *ngSwitchCase="'dropdown'">
-                        <mat-select #dd class="filterElement"
-                            (selectionChange)="filterColumns($event.value, column.field)">
+                        <mat-select #dd class="filterElement" [ngClass]="closeIcon && dd.value!='' ? 'openD' : ''"
+                            (selectionChange)="dropDownFilterColumns($event.value, column.field)" >
                             <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
                                 {{grp.viewValue}}
                             </mat-option>
                         </mat-select>
-                        <mat-icon class="fiterIconRight" matSuffix
-                            (click)="filterColumns(dd.value= '',column.field)">clear</mat-icon>
+                        <mat-icon *ngIf="closeIcon && dd.value!=''" class="fiterIconRight" matSuffix
+                            (click)="dropDownFilterColumns(dd.value = '',column.field)">clear</mat-icon>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'date'">

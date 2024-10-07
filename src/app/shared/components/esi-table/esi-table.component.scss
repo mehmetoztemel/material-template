@@ -10,49 +10,79 @@
 }
 
 // table solid
-.mat-mdc-table {
+::ng-deep .mat-mdc-table {
   border: 1px solid rgba(173, 172, 172, 0.3019607843);
   border-radius: 5px;
   border-bottom-style: solid;
   padding: 10px;
 }
 
-// for Filter >>
+//  << for Filter
 ::ng-deep th.mat-mdc-header-cell {
   align-content: end;
   padding: 0px 5px;
   padding-bottom: 10px !important;
-  // .ng-star-inserted{
-  //   display: flex !important;
-  //   align-items: center !important;
-  // }
+}
+.filterContent{
+display: flex;
+align-items: center;
 }
 .fiterIcon {
   font-size: 14px;
   width: 14px;
   position: absolute;
-  // margin-top: 5px;
   margin-left: 2px;
   align-content: center;
 }
 
 .fiterIconRight {
+  align-content: center;
   font-size: 15px;
   margin-left: -20px;
   width: 15px;
+  position: relative;
+  z-index: 1000;
+  cursor: pointer;
 }
 
 
 .filterElement {
   width: calc(100% - 22px);
-  // margin-bottom: 5px;
   border: solid 0.5px silver;
   border-radius: 0.3em;
   padding-left: 18px;
-  height: 20px;
+  height: 24px;
+}
+.mat-mdc-select{
+  padding: 1px;
+}
+//  for Filter End >>
+
+// << for Dropdown
+ .openD{
+::ng-deep .mat-mdc-select-arrow{
+    transform: translateX(-23px);
+  }
+}
+::ng-deep .mat-mdc-select-arrow{
+  transform: translateX(-5px);
 }
 
-// << for Filter End
+::ng-deep .mat-mdc-select-panel {
+  margin-top: 2px !important;
+}
+::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked{
+  background-color:rgb(45 85 105 / 76%) !important;
+  border-color: rgba(0, 0, 0, 0) !important;
+ 
+}
+::ng-deep .mat-pseudo-checkbox-full {
+  border-color: rgb(55 71 79 / 76%) !important;
+}
+::ng-deep .mat-select-trigger {
+  min-width: 80vw !important;
+}
+//  for Dropdown  >>
 
 @media (max-width: 800px) {
   td.mat-mdc-cell:first-of-type,

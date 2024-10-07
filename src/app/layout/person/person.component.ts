@@ -52,7 +52,7 @@ export class PersonComponent implements OnInit {
     ];
     this.cols = [
       { field: 'position', header: 'Position', type: ColumnType.text, style: '15%', filter: ColumnType.text },
-      { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.text },
+      { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.date },
       { field: 'weight', header: 'Weight', type: ColumnType.num5, style: '20%', filter: ColumnType.text },
       { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect, opt: this.symbolOpt },
       { field: 'Actions', header: 'asdas', buttonLabel: 'Detail', type: ColumnType.button, style: '10%', color: "primary" }
@@ -62,18 +62,15 @@ export class PersonComponent implements OnInit {
     uniqueSymbols.forEach(symbol => {
       this.symbolOpt.push({ viewValue: symbol, value: symbol });
     });
-
     this.displayedColumns = this.cols.map(x => x.field);
   }
   get form() { return this.newsForm.controls; }
   kayitForm: IFormComponent[] = [];
   createForm() {
-
     this.kayitForm = [
       { label: 'Email', type: FormTipleri.email, value: '', control: 'email', hide: false, req: true },
       { label: 'Password', type: FormTipleri.password, value: '', control: 'password', hide: false, req: true }
     ];
-
     this.newsForm = new FormGroup({
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
@@ -82,7 +79,7 @@ export class PersonComponent implements OnInit {
 
   openDialog() {
     const dialog = this._dialog.open(EsiDialogComponent, {
-      width: '800px',
+      // width: '800px',
       data: <IDialogDataModel>{
         header: "Dialog Header",
         // card: <IDialogDataModel>{
