@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IColumns } from '../../shared/models/components/columns';
 import { EsiDialogComponent } from '../../shared/components/esi-dialog/esi-dialog.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ColumnType } from '../../shared/models/components/enums/columnTypeEnum';
 import { IDropdownOption } from '../../shared/models/components/dropdownOption';
 import { IDialogDataModel } from '../../shared/models/components/dialogDataModel';
 import { IFormComponent } from '../../shared/models/components/formComponent';
 import { FormTypes } from '../../shared/models/components/enums/formtypes';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-person',
@@ -57,8 +58,8 @@ export class PersonComponent implements OnInit {
       { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.date },
       { field: 'weight', header: 'Weight', type: ColumnType.num5, style: '20%', filter: ColumnType.text },
       { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect, opt: this.symbolOpt },
-      { field: 'Actions', header: '', buttonLabel: '',icon:"menu", type: ColumnType.button, style: '10%', color: "primary" },
-      { field: 'Actions1', header: '', buttonLabel: '', icon :"delete" ,type: ColumnType.button, style: '10%', color: "warn" }
+      { field: 'Actions', header: '', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '10%', color: "primary" },
+      { field: 'Actions1', header: '', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '10%', color: "warn" }
     ];
 
     const uniqueSymbols = Array.from(new Set(this.data.map(element => element.symbol)));
@@ -99,6 +100,19 @@ export class PersonComponent implements OnInit {
     dialog.afterClosed().subscribe(result => {
       console.log(result);
     });
+  }
+
+
+  openDialog1(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    // Configure the dialog options
+    dialogConfig.disableClose = false; // Prevents closing the dialog by clicking outside
+    dialogConfig.autoFocus = false;   // Disable autofocus to manually control focus
+    dialogConfig.width = '80%';       // Set the width of the dialog
+    dialogConfig.data = { id: 123, name: 'Angular' }; // Pass data to the dialog component
+    dialogConfig.autoFocus = 'input[name="testName"]'; //Pass autoFoucs field
+    this._dialog.open(PersonComponent, dialogConfig);
   }
 }
 export interface PeriodicElement {
