@@ -78,7 +78,7 @@ export class PersonComponent implements OnInit {
         // table: this.data,
         // col: this.cols,
         // dspCol: this.displayedColumns
-      }
+      },
     });
 
     dialog.afterClosed().subscribe(result => {

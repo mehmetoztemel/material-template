@@ -18,3 +18,7 @@
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-dialog-content {
   padding: 5px 10px 15px 10px !important;
 }
+// dialog içerisindeki yazı rengini siyah yapmak için kullanıyoruz
+.mat-mdc-dialog-content>:last-child {
+  color: black !important;
+}
