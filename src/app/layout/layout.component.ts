@@ -1,4 +1,4 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnInit, signal, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
@@ -19,18 +19,42 @@ export class LayoutComponent implements OnInit {
   isCollapsed = false;
   userInfo: string;
   menuItems = menuItems;
-  constructor(private observer: BreakpointObserver, private router: Router, public appConfig: AppConfig) { }
+
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router, public appConfig: AppConfig) { }
 
   ngOnInit() {
     this.userInfo = localStorage.getItem("userName");
-    this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
-      if (screenSize.matches) {
+    // this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
+    //   if (screenSize.matches) {
+    //     this.appConfig.isMobile = true;
+    //     this.appConfig.cols = 1;
+    //   } else {
+    //     this.appConfig.isMobile = false;
+    //     this.appConfig.cols = 2;
+    //   }
+    // });
+    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large])
+    .subscribe(result => {
+      if (result.breakpoints[Breakpoints.XSmall]) {
+        console.log('xs');
+        this.appConfig.grid.cols = 1;
         this.appConfig.isMobile = true;
-      } else {
+      } else if (result.breakpoints[Breakpoints.Small]) {
+        console.log('s');
+        this.appConfig.grid.cols = 2;
+        this.appConfig.isMobile = true;
+      } else if (result.breakpoints[Breakpoints.Medium]) {
+        console.log('m');
+        this.appConfig.grid.cols = 3;
+        this.appConfig.isMobile = false;
+      } else if (result.breakpoints[Breakpoints.Large]) {
+        console.log('l');
+        this.appConfig.grid.cols = 4;
         this.appConfig.isMobile = false;
       }
     });
-  }
+}
+  
 
   toggleMenu() {
     if (this.appConfig.isMobile) {

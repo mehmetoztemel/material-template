@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentRef, OnInit } from '@angular/core';
 import { IColumns } from '../../shared/models/components/columns';
 import { EsiDialogComponent } from '../../shared/components/esi-dialog/esi-dialog.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +9,7 @@ import { IDialogDataModel } from '../../shared/models/components/dialogDataModel
 import { IFormComponent } from '../../shared/models/components/formComponent';
 import { FormTypes } from '../../shared/models/components/enums/formtypes';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { PersonCreateComponent } from '../personcreate/personcreate.component';
 
 @Component({
   selector: 'app-person',
@@ -21,13 +22,10 @@ export class PersonComponent implements OnInit {
   displayedColumns: string[]
   data: PeriodicElement[] = [];
   openNewDialog: boolean = false;
-  newsForm: FormGroup;
   symbolOpt: IDropdownOption[] = [];
-
   constructor(private _dialog: MatDialog) { }
   ngOnInit(): void {
     this.setTableCols();
-    this.createForm();
   }
 
   setTableCols() {
@@ -58,8 +56,8 @@ export class PersonComponent implements OnInit {
       { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.date },
       { field: 'weight', header: 'Weight', type: ColumnType.num5, style: '20%', filter: ColumnType.text },
       { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect, opt: this.symbolOpt },
-      { field: 'Actions', header: '', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '10%', color: "primary" },
-      { field: 'Actions1', header: '', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '10%', color: "warn" }
+      { field: 'Actions', header: '', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '10%', color: "primary", click: this.openDialog.bind(this) },
+      { field: 'Actions1', header: '', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '10%', color: "warn", click: this.silDialog.bind(this) }
     ];
 
     const uniqueSymbols = Array.from(new Set(this.data.map(element => element.symbol)));
@@ -68,51 +66,63 @@ export class PersonComponent implements OnInit {
     });
     this.displayedColumns = this.cols.map(x => x.field);
   }
-  get form() { return this.newsForm.controls; }
-  kayitForm: IFormComponent[] = [];
-  createForm() {
-    this.kayitForm = [
-      { label: 'Email', type: FormTypes.email, value: '', control: 'email', hide: false, req: true },
-      { label: 'Password', type: FormTypes.password, value: '', control: 'password', hide: false, req: true }
-    ];
-    this.newsForm = new FormGroup({
-      email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+  openDialog(e: any) {
+
+    const dialog = this._dialog.open(EsiDialogComponent, {
+      autoFocus: false,
+      data: <IDialogDataModel>{
+        component: PersonCreateComponent,
+        componentData: e,
+        header: "test",
+        table: this.data,
+        col: this.cols,
+        dspCol: this.displayedColumns
+      },
+      width: '500px'
     });
+
+    dialog.afterClosed().subscribe(result => {
+    });
+
   }
 
-  openDialog() {
-    const dialog = this._dialog.open(EsiDialogComponent, {
-      // width: '800px',
-      data: <IDialogDataModel>{
-        header: "Dialog Header",
-        // card: <IDialogDataModel>{
-        //   header: "Test1",
-        //   formGroup: this.newsForm,
-        //   formType: this.kayitForm,
-        //   label: "dasdasdasd"
-        // },
-        col: this.cols,
-        table: this.data,
-        dspCol: this.displayedColumns
-      }
-    });
-    dialog.afterClosed().subscribe(result => {
+  silDialog(e: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;          // Dış tıklama ile kapanmayı engeller
+    dialogConfig.autoFocus = false;             // Otomatik olarak odaklanmayı sağlar
+    dialogConfig.data = <IDialogDataModel>{
+      header: "Dialog Header",
+      label: "Kayıt silinecektir",
+      button1: "Evet",
+      button2: "Hayır"
+    };
+    let dialogRef = this._dialog.open(EsiDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     });
+
   }
 
 
-  openDialog1(): void {
-    const dialogConfig = new MatDialogConfig();
+  openDialog1(e: any): void {
 
-    // Configure the dialog options
-    dialogConfig.disableClose = false; // Prevents closing the dialog by clicking outside
-    dialogConfig.autoFocus = false;   // Disable autofocus to manually control focus
-    dialogConfig.width = '80%';       // Set the width of the dialog
-    dialogConfig.data = { id: 123, name: 'Angular' }; // Pass data to the dialog component
-    dialogConfig.autoFocus = 'input[name="testName"]'; //Pass autoFoucs field
-    this._dialog.open(PersonComponent, dialogConfig);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;          // Dış tıklama ile kapanmayı engeller
+    dialogConfig.autoFocus = true;             // Otomatik olarak odaklanmayı sağlar
+    dialogConfig.width = '500px';              // Genişliği ayarlar
+    dialogConfig.height = '400px';             // Yüksekliği ayarlar
+    dialogConfig.data = { id: 123 };           // Veriyi iletir
+    dialogConfig.hasBackdrop = true;           // Arka plan bulanıklaştırılır
+
+    let dialogRef = this._dialog.open(PersonCreateComponent, dialogConfig);
+    // dialogRef.componentInstance.person = e;
+    // Diyalog kapatıldığında sonuç alma
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Diyalog sonucu: ", result);
+      }
+    });
   }
 }
 export interface PeriodicElement {

@@ -9,6 +9,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit{
   constructor(){}
-  ngOnInit(): void {
+  data : any
+  ngOnInit(): void {    
+  console.log(this.data);
+  
   }
 }

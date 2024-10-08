@@ -1,9 +1,11 @@
-<ng-container *ngIf="data.header != null ">
-  <h1 mat-dialog-title style="text-align: center;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+  <div *ngIf="data.header != null" mat-dialog-title>
     {{data.header}}
-  </h1>
-</ng-container>
-
+  </div>
+  <button mat-icon-button (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 <div class="dialog-container">
   <!-- Card Component -->
   <ng-container *ngIf="data.card">
@@ -69,3 +71,20 @@
   </ng-container>
 
 </div>
+
+<!-- 
+
+<div style="display: flex; align-items: center; justify-content: space-between;">
+  <div mat-dialog-title>
+    {{data.header}}
+  </div>
+
+  <button mat-icon-button (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<ng-container *ngIf="data.component">
+  <div mat-dialog-content>
+    <ng-template #dynamicComponentContainer></ng-template>
+  </div>
+</ng-container> -->

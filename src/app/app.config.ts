@@ -7,4 +7,10 @@ export class AppConfig {
     public Api: string = 'api/';
     public ApiUrl = this.Server + this.Api;
     public isMobile : boolean = false; 
+    // public cols: number = 2;
+    public grid = {
+        cols: 4,
+        // rowHeight: '80px',
+        // gutterSize: '5px'
+      };
 }

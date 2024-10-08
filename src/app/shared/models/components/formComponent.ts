@@ -9,5 +9,7 @@ export interface IFormComponent {
     min?: number,
     req?: boolean,
     readonly?:boolean;
-    onChange?(data: any): void
+    onChange?(data: any): void,
+    cols?:number,
+    rows ?: number;
 }

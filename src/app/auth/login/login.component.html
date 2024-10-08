@@ -28,11 +28,11 @@
             </form>
         </mat-card-content>
         <mat-card-actions class="card-action">
-            <button mat-raised-button color="primary" class="login-button" [disabled]="!loginForm.valid"
+            <button mat-raised-button color="primary" class="card-actions-buttons" [disabled]="!loginForm.valid"
                 (click)="Login()">
                 <mat-icon>login</mat-icon><span>Login</span></button>
             &nbsp;
-            <button mat-raised-button color="primary" class="login-button" (click)="Register()">
+            <button mat-raised-button color="primary" class="card-actions-buttons" (click)="Register()">
                 <mat-icon>how_to_reg</mat-icon><span>Register</span>
             </button>
         </mat-card-actions>

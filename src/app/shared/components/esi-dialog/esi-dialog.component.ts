@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { EsiFormComponent } from '../esi-form/esi-form.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-esi-dialog',
@@ -20,7 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     EsiTableComponent,
     EsiFormComponent,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -33,7 +35,6 @@ export class EsiDialogComponent implements OnInit {
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
   componentRef: ComponentRef<any>;
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
@@ -57,16 +58,15 @@ export class EsiDialogComponent implements OnInit {
       console.log("1");
       this.dialogRef.close(this.data.formGroup.value);
     }
-    else if (this.data.card.formGroup) {
+    else if (this.data.card?.formGroup) {
       console.log('2');
-      
       this.dialogRef.close(this.data.card.formGroup.value);
     }
     else if (this.data.label) {
       console.log("3");
       this.dialogRef.close(true);
     }
-    else if (this.data.card.label) {
+    else if (this.data.card?.label) {
       console.log("4");
       this.dialogRef.close(true);
     }

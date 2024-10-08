@@ -15,6 +15,7 @@ export interface IDialogDataModel {
     card?:IDialogDataModel,
     label: string,
     component?: Type<unknown>;
+    componentData : any;
 }
 
 

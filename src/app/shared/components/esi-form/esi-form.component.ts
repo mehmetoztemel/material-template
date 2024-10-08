@@ -7,8 +7,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AppConfig } from '../../../app.config';
 
 @Component({
   selector: 'esi-form',
@@ -24,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     MatDatepickerModule,
     MatCheckboxModule,
+    MatGridListModule
   ],
   providers:[provideNativeDateAdapter()],
   templateUrl: './esi-form.component.html',
@@ -35,12 +38,9 @@ export class EsiFormComponent implements OnInit {
   @Input() formGroup: FormGroup;
 
   @Input() forms: any;
-  constructor(){
-
+  constructor(public appConfig : AppConfig){
   }
   
   ngOnInit(): void {
   }
 }
-
-

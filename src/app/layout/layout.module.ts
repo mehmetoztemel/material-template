@@ -18,11 +18,19 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EsiTableComponent } from '../shared/components/esi-table/esi-table.component';
+import { PersonCreateComponent } from './personcreate/personcreate.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EsiFormComponent } from "../shared/components/esi-form/esi-form.component";
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  declarations: [LayoutComponent,DashboardComponent,PersonComponent],
+  declarations: [LayoutComponent,DashboardComponent,PersonComponent,PersonCreateComponent],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     LayoutRoutingModule,
     MatIconModule,
     MatButtonModule,
@@ -38,7 +46,11 @@ import { EsiTableComponent } from '../shared/components/esi-table/esi-table.comp
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    EsiTableComponent
-  ]
+    EsiTableComponent,
+    EsiFormComponent,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule
+]
 })
 export class LayoutModule { }
