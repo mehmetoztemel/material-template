@@ -1,14 +1,11 @@
-import { ChangeDetectionStrategy, Component, ComponentRef, OnInit } from '@angular/core';
-import { IColumns } from '../../shared/models/components/columns';
-import { EsiDialogComponent } from '../../shared/components/esi-dialog/esi-dialog.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ColumnType } from '../../shared/models/components/enums/columnTypeEnum';
-import { IDropdownOption } from '../../shared/models/components/dropdownOption';
+import { EsiDialogComponent } from '../../shared/components/esi-dialog/esi-dialog.component';
+import { IColumns } from '../../shared/models/components/columns';
 import { IDialogDataModel } from '../../shared/models/components/dialogDataModel';
-import { IFormComponent } from '../../shared/models/components/formComponent';
-import { FormTypes } from '../../shared/models/components/enums/formtypes';
-import { DashboardComponent } from '../dashboard/dashboard.component';
+import { IDropdownOption } from '../../shared/models/components/dropdownOption';
+import { ColumnType } from '../../shared/models/components/enums/columnTypeEnum';
+import { Utility } from '../../shared/Utility';
 import { PersonCreateComponent } from '../personcreate/personcreate.component';
 
 @Component({
@@ -21,7 +18,6 @@ export class PersonComponent implements OnInit {
   cols: IColumns[];
   displayedColumns: string[]
   data: PeriodicElement[] = [];
-  openNewDialog: boolean = false;
   symbolOpt: IDropdownOption[] = [];
   constructor(private _dialog: MatDialog) { }
   ngOnInit(): void {
@@ -51,6 +47,8 @@ export class PersonComponent implements OnInit {
       { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
       { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' }
     ];
+    this.symbolOpt = Utility.getUniqueOptionsByProperty(this.data, 'symbol');
+
     this.cols = [
       { field: 'position', header: 'Position', type: ColumnType.text, style: '15%', filter: ColumnType.text },
       { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.date },
@@ -60,25 +58,27 @@ export class PersonComponent implements OnInit {
       { field: 'Actions1', header: '', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '10%', color: "warn", click: this.silDialog.bind(this) }
     ];
 
-    const uniqueSymbols = Array.from(new Set(this.data.map(element => element.symbol)));
-    uniqueSymbols.forEach(symbol => {
-      this.symbolOpt.push({ viewValue: symbol, value: symbol });
-    });
+    //#region Option GroupBy
+    // const uniqueSymbols = Array.from(new Set(this.data.map(element => element.symbol)));
+    // uniqueSymbols.forEach(symbol => {
+    //   this.symbolOpt.push({ viewValue: symbol, value: symbol });
+    // });
+    //#endregion
+
     this.displayedColumns = this.cols.map(x => x.field);
   }
   openDialog(e: any) {
-
     const dialog = this._dialog.open(EsiDialogComponent, {
       autoFocus: false,
+      disableClose: true,
       data: <IDialogDataModel>{
         component: PersonCreateComponent,
         componentData: e,
-        header: "test",
-        table: this.data,
-        col: this.cols,
-        dspCol: this.displayedColumns
-      },
-      width: '500px'
+        header: "Create Person",
+        // table: this.data,
+        // col: this.cols,
+        // dspCol: this.displayedColumns
+      }
     });
 
     dialog.afterClosed().subscribe(result => {
@@ -92,12 +92,11 @@ export class PersonComponent implements OnInit {
     dialogConfig.autoFocus = false;             // Otomatik olarak odaklanmayı sağlar
     dialogConfig.data = <IDialogDataModel>{
       header: "Dialog Header",
-      label: "Kayıt silinecektir",
+      label: "Kayıt silinecektir onaylıyor musunuz?",
       button1: "Evet",
       button2: "Hayır"
     };
     let dialogRef = this._dialog.open(EsiDialogComponent, dialogConfig);
-
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     });
@@ -106,7 +105,6 @@ export class PersonComponent implements OnInit {
 
 
   openDialog1(e: any): void {
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;          // Dış tıklama ile kapanmayı engeller
     dialogConfig.autoFocus = true;             // Otomatik olarak odaklanmayı sağlar
@@ -116,6 +114,7 @@ export class PersonComponent implements OnInit {
     dialogConfig.hasBackdrop = true;           // Arka plan bulanıklaştırılır
 
     let dialogRef = this._dialog.open(PersonCreateComponent, dialogConfig);
+    // açılacak olan componente data göndermek istiyorsak buradan iletebiliriz.
     // dialogRef.componentInstance.person = e;
     // Diyalog kapatıldığında sonuç alma
     dialogRef.afterClosed().subscribe(result => {
@@ -131,3 +130,6 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
+
+
+

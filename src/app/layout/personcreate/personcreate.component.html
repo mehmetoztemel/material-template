@@ -1,15 +1,24 @@
-  <!-- <mat-card appearance="outlined">
-    <mat-card-content>
-      <div>
-        <esi-form [formGroup]="createPersonForm" [forms]="createForm"></esi-form>
-      </div>
-    </mat-card-content>
-    <mat-card-actions style="justify-content: flex-end;">
-      <button mat-raised-button color="primary" [ngClass]="appConfig.isMobile ? 'card-actions-buttons' : 'saveButton'"
-        [disabled]="!createPersonForm.valid" (click)="Test()">
-        <mat-icon>save</mat-icon>
-        <span>Save</span>
-      </button>
-    </mat-card-actions>
-  </mat-card> -->
+<div>
+    <form [formGroup]="createPersonForm">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" required>
+            <mat-error *ngIf="createPersonForm.get('email').hasError('required')">
+                Email is required
+            </mat-error>
+            <mat-error *ngIf="createPersonForm.get('email').hasError('email')">
+                Please enter a valid email address
+            </mat-error>
+        </mat-form-field>
 
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" required>
+            <mat-error *ngIf="createPersonForm.get('password').hasError('required')">
+                Password is required
+            </mat-error>
+        </mat-form-field>
+    </form>
+    <button mat-raised-button color="primary" class="card-actions-buttons" [disabled]="!createPersonForm.valid" (click)="Test()">
+        <mat-icon>login</mat-icon><span>Login</span></button>
+</div>

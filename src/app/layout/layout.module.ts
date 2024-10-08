@@ -20,7 +20,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { EsiTableComponent } from '../shared/components/esi-table/esi-table.component';
 import { PersonCreateComponent } from './personcreate/personcreate.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EsiFormComponent } from "../shared/components/esi-form/esi-form.component";
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -47,7 +46,6 @@ import { MatInputModule } from '@angular/material/input';
     MatSortModule,
     MatPaginatorModule,
     EsiTableComponent,
-    EsiFormComponent,
     MatGridListModule,
     MatFormFieldModule,
     MatInputModule

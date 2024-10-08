@@ -15,7 +15,6 @@ export class LayoutComponent implements OnInit {
 
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-  // isMobile = true;
   isCollapsed = false;
   userInfo: string;
   menuItems = menuItems;
@@ -55,7 +54,6 @@ export class LayoutComponent implements OnInit {
     });
 }
   
-
   toggleMenu() {
     if (this.appConfig.isMobile) {
       this.sidenav.toggle();
@@ -65,7 +63,6 @@ export class LayoutComponent implements OnInit {
       this.isCollapsed = !this.isCollapsed;
     }
   }
-
 
   LogOut() {
     const rememberMe = localStorage.getItem("rememberMe");

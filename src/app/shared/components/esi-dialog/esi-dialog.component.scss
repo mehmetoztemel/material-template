@@ -1,39 +1,20 @@
-.divButtonClass {
+.dialog-action-buttons {
   display: flex;
   justify-content: flex-end;
 }
 
-.dialog-button {
+.dialog-action-button {
   width: 28%;
   height: 45px;
 }
 
-.mat-mdc-card-title {
-  margin: 10px 16px !important;
-}
-
 .dialog-container {
   padding: 10px;
-  width: 95%;
+  // width: 95%;
   max-width: 100vw;
-  margin: auto;
+  // margin: auto;
 }
-
-// ::ng-deep .mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
-//   padding: 0 !important;
-//  //  max-height: 350px;
-// }
 
 ::ng-deep .mat-mdc-dialog-container .mat-mdc-dialog-content {
   padding: 5px 10px 15px 10px !important;
 }
-
-// @media (max-width: 800px) {
-//   ::ng-deep .mat-mdc-dialog-container {
-//     height: 98vh !important;
-//   }
-
-//   ::ng-deep .mat-mdc-paginator-range-label {
-//     margin: 0 !important;
-//   }
-// }
