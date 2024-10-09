@@ -7,7 +7,7 @@ import { IFormComponent } from '../../shared/models/components/formComponent';
 
 @Component({
   selector: 'app-personcreate',
-  templateUrl: './personcreate.component.html', 
+  templateUrl: './personcreate.component.html',
   styleUrls: ['./personcreate.component.scss']
 })
 export class PersonCreateComponent implements OnInit {
@@ -17,17 +17,10 @@ export class PersonCreateComponent implements OnInit {
   constructor(public appConfig: AppConfig, public dialogRef: MatDialogRef<PersonCreateComponent>) { }
 
   ngOnInit() {
-    // const componentInstance: any = this.dialogRef.componentInstance;
-    // const componentData = componentInstance?.data?.componentData;
-    // if (componentData) {
-    //   console.log('Component Data:', componentData);
-    //   this.person = componentData;
-    // }
     const componentInstance = this.dialogRef.componentInstance as { data?: { componentData?: any } };
     const componentData = componentInstance?.data?.componentData;
-    
     if (componentData) {
-      console.log('Component Data:', componentData);
+      // console.log('Component Data:', componentData);
       this.person = componentData;
     }
 
@@ -50,8 +43,4 @@ export class PersonCreateComponent implements OnInit {
     console.log(this.form)
   }
 
-  closeDialog(): void {
-    this.dialogRef.componentRef.destroy();
-    this.dialogRef.close();
-  }
 }

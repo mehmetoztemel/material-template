@@ -1,24 +1,29 @@
-<div>
-    <form [formGroup]="createPersonForm">
-        <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email" required>
-            <mat-error *ngIf="createPersonForm.get('email').hasError('required')">
-                Email is required
-            </mat-error>
-            <mat-error *ngIf="createPersonForm.get('email').hasError('email')">
-                Please enter a valid email address
-            </mat-error>
-        </mat-form-field>
+<mat-card appearance="outlined">
+    <mat-card-content>
+        <div>
+            <form [formGroup]="createPersonForm">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email" required>
+                    <mat-error *ngIf="createPersonForm.get('email').hasError('required')">
+                        Email is required
+                    </mat-error>
+                    <mat-error *ngIf="createPersonForm.get('email').hasError('email')">
+                        Please enter a valid email address
+                    </mat-error>
+                </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" required>
-            <mat-error *ngIf="createPersonForm.get('password').hasError('required')">
-                Password is required
-            </mat-error>
-        </mat-form-field>
-    </form>
-    <button mat-raised-button color="primary" class="card-actions-buttons" [disabled]="!createPersonForm.valid" (click)="Test()">
-        <mat-icon>save</mat-icon><span>Save</span></button>
-</div>
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password" required>
+                    <mat-error *ngIf="createPersonForm.get('password').hasError('required')">
+                        Password is required
+                    </mat-error>
+                </mat-form-field>
+            </form>
+            <button mat-raised-button color="primary" class="card-actions-buttons" [disabled]="!createPersonForm.valid"
+            (click)="Test()">
+            <mat-icon>save</mat-icon><span>Save</span></button>
+        </div>
+    </mat-card-content>
+</mat-card>

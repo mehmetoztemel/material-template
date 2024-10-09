@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, ComponentRef, Inject, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { EsiTableComponent } from '../esi-table/esi-table.component';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ComponentRef, Inject, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { EsiFormComponent } from '../esi-form/esi-form.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { EsiFormComponent } from '../esi-form/esi-form.component';
+import { EsiTableComponent } from '../esi-table/esi-table.component';
 
 @Component({
   selector: 'app-esi-dialog',
@@ -42,15 +42,22 @@ export class EsiDialogComponent implements OnInit {
       this.container.clear(); // Önceki bileşenleri temizler
       this.componentRef = this.container.createComponent(this.data.component as Type<any>);
     }
+    // if (this.data.card.component && this.container) {
+    //   this.container.clear(); // Önceki bileşenleri temizler
+    //   this.componentRef = this.container.createComponent(this.data.card.component as Type<any>);
+    // }
   }
-  ngOnDestroy() {
-    if (this.componentRef) {
-      this.componentRef.destroy();
-    }
-  }
+  // ngOnDestroy() {
+  //   if (this.componentRef) {
+  //     this.componentRef.destroy();
+  //   }
+  // }
 
   closeDialog() {
     this.dialogRef.close();
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
   }
 
   onSave() {

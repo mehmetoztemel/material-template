@@ -53,7 +53,7 @@ export class PersonComponent implements OnInit {
       { field: 'position', header: 'Position', type: ColumnType.text, style: '15%', filter: ColumnType.text },
       { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.date },
       { field: 'weight', header: 'Weight', type: ColumnType.num5, style: '20%', filter: ColumnType.text },
-      { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect, opt: this.symbolOpt },
+      { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.dropdown, opt: this.symbolOpt },
       { field: 'Actions', header: '', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '10%', color: "primary", click: this.openDialog.bind(this) },
       { field: 'Actions1', header: '', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '10%', color: "warn", click: this.silDialog.bind(this) }
     ];
@@ -64,7 +64,6 @@ export class PersonComponent implements OnInit {
     //   this.symbolOpt.push({ viewValue: symbol, value: symbol });
     // });
     //#endregion
-
     this.displayedColumns = this.cols.map(x => x.field);
   }
   openDialog(e: any) {
@@ -74,16 +73,11 @@ export class PersonComponent implements OnInit {
       data: <IDialogDataModel>{
         component: PersonCreateComponent,
         componentData: e,
-        header: "Create Person",
-        // table: this.data,
-        // col: this.cols,
-        // dspCol: this.displayedColumns
+        header: "Create"
       },
     });
-
     dialog.afterClosed().subscribe(result => {
     });
-
   }
 
   silDialog(e: any) {
@@ -91,18 +85,15 @@ export class PersonComponent implements OnInit {
     dialogConfig.disableClose = false;          // Dış tıklama ile kapanmayı engeller
     dialogConfig.autoFocus = false;             // Otomatik olarak odaklanmayı sağlar
     dialogConfig.data = <IDialogDataModel>{
-      header: "Dialog Header",
       label: "Kayıt silinecektir onaylıyor musunuz?",
       button1: "Evet",
       button2: "Hayır"
     };
     let dialogRef = this._dialog.open(EsiDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      // console.log(result);
     });
-
   }
-
 
   openDialog1(e: any): void {
     const dialogConfig = new MatDialogConfig();
@@ -130,6 +121,3 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
-
-
-

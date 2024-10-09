@@ -1,12 +1,12 @@
 <div style="display: flex; align-items: center; justify-content: space-between;">
-  <div *ngIf="data.header != null" mat-dialog-title>
+  <div mat-dialog-title>
     {{data.header}}
   </div>
   <button mat-icon-button (click)="closeDialog()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div class="dialog-container">
+<div class="">
   <!-- Card Component -->
   <ng-container *ngIf="data.card">
     <div mat-dialog-content>
@@ -28,6 +28,12 @@
           <div *ngIf="data.card.label" mat-dialog-content>
             <label>{{data.card.label}}</label>
           </div>
+          <ng-container >
+            <div *ngIf="data.card.component" mat-dialog-content>
+              <ng-template #dynamicComponentContainer></ng-template>
+            </div>
+          </ng-container>
+
         </mat-card-content>
       </mat-card>
     </div>
