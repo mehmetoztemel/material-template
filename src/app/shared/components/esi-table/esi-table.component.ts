@@ -2,16 +2,17 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { IColumns } from '../../models/components/columns';
-import { AppConfig } from '../../../app.config';
 import { MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { AppConfig } from '../../../app.config';
+import { IColumns } from '../../models/components/columns';
 import { IDropdownOption } from '../../models/components/dropdownOption';
+import { ColumnType } from '../../models/components/enums/columnTypeEnum';
 
 @Component({
   selector: 'esi-table',
@@ -45,12 +46,12 @@ export class EsiTableComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @Output() onFilter: EventEmitter<any> = new EventEmitter();
   @Output() dateInput: EventEmitter<MatDatepickerInputEvent<any>>
-
+  dropDownOptionsMap: { [key: string]: IDropdownOption[] } = {};
 
   @ViewChild(MatSort, { static: true })
   sort: MatSort = new MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  filterState: { [key: string]: any[] } = {};
 
   constructor(public appConfig: AppConfig) {
 
@@ -63,7 +64,7 @@ export class EsiTableComponent implements OnInit {
     if (this.showPaginator) {
       this.dataSource.paginator = this.paginator;
     }
-    
+
   }
 
   setData(source?: any[]) {
@@ -75,89 +76,107 @@ export class EsiTableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(source);
       this.dataSource.sort = this.sort;
     }
+    this.updateDropdownOptions();
     this.dataSource.paginator = this.paginator;
   }
 
-  //#region Düzenlemiş Filtreleme Metotları
+  updateDropdownOptions() {
+    this.columns.forEach(column => {
+      if (column.filter === ColumnType.dropDown || column.filter === ColumnType.multiSelect) {
+        let dropdownOptions: IDropdownOption[] = [];
+        if (column.opt?.length > 0) {
+          dropdownOptions = column.opt
+            .filter(opt => this.dataSource.data.some((x: any) => x[column.field] === opt.value))
+            .map(opt => ({
+              viewValue: opt.value,
+              value: opt.value
+            }));
+        }
+        else {
+          const uniqueValues = Array.from(
+            new Set(this.dataSource.data.map((x: any) => x[column.field]))
+          ).filter(value => value != null && value !== "");
 
+          dropdownOptions = uniqueValues.map(option => ({
+            viewValue: option,
+            value: option
+          }));
+        }
+        this.dropDownOptionsMap[column.field] = dropdownOptions;
+      }
+    });
+  }
+
+  //#region Düzenlemiş Filtreleme Metotları
   applyFilter(event: Event, colName: string) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    // Filtreleme işlemi
     const filteredData = this.value.filter((item: Record<string, any>) => {
       const columnValue = item[colName]?.toString().toLowerCase() || '';
       return columnValue.includes(filterValue);
     });
-    // MatTable'daki veriyi güncelleme
-    // this.dataSource = new MatTableDataSource(filteredData);
-    // this.dataSource.sort = this.sort;
     this.setData(filteredData);
-    // Filtreleme sonrası event tetikleme
     this.onFilter.emit(filteredData);
   }
+
   dateFilter(event: any, colName: string) {
     const filterValue = new Date(event).toLocaleDateString();
-    // Tarih filtresi uygulama
     const filteredData = this.value.filter((item: any) => {
       const itemDate = new Date(item[colName]).toLocaleDateString();
       return itemDate.indexOf(filterValue) !== -1;
     });
-    // MatTable'daki veriyi güncelleme
-    // this.dataSource = new MatTableDataSource(filteredData);
-    // this.dataSource.sort = this.sort;
     this.setData(filteredData);
-    // Filtreleme sonrası event tetikleme
     this.onFilter.emit(filteredData);
   }
 
-  dropDownFilterColumns(selectedValue: string, colName: string) {
-    if (selectedValue != '') {
+  dropDownFilterColumns(selectedValue: any, colName: string) {
+    if (selectedValue !== '') {
       this.closeIcon = true;
-      // Seçilen değere göre filtreleme işlemi
-      const filteredData = this.value.filter((item: any) => {
-        return item[colName] === selectedValue;
-      });
-      // MatTable verisini güncelleme
-      // this.dataSource = new MatTableDataSource(filteredData);
-      // this.dataSource.sort = this.sort;
-      this.setData(filteredData);
-      // Filtreleme sonrası event tetikleme
-      this.onFilter.emit(filteredData);
-    }
-    else {
-      // MatTable verisini güncelleme
-      // this.dataSource = new MatTableDataSource(this.value);
-      // this.dataSource.sort = this.sort;
-      this.setData();
+      this.filterState[colName] = selectedValue;
+    } else {
+      delete this.filterState[colName];
       this.closeIcon = false;
-    }    
+    }
+    this.applyFilters();
   }
 
   multiSelectFilterColumns(selectedValues: string[], colName: string) {
     if (selectedValues.length > 0) {
       this.closeIcon = true;
-      // Seçilen değerlere göre filtreleme işlemi
-      const filteredData = this.value.filter((item: any) => {
-        return selectedValues.includes(item[colName]);
-      });
-      // MatTable verisini güncelleme
-      // this.dataSource = new MatTableDataSource(filteredData);
-      // this.dataSource.sort = this.sort;
-      this.setData(filteredData);
-      // Filtreleme sonrası event tetikleme
-      this.onFilter.emit(filteredData);
-    } else {
-      // Seçim olmadığında tüm veriyi göster
-      // this.dataSource = new MatTableDataSource(this.value);
-      // this.dataSource.sort = this.sort;
-      this.setData();
+      if(this.filterState[colName] == null ){
+        this.filterState[colName] = []
+      }
+      this.filterState[colName].push( selectedValues);
+    } 
+    else {
+      delete this.filterState[colName];
       this.closeIcon = false;
     }
+    this.applyFilters();
   }
 
-  clearDropDownSelection(dd: any, colName: string) {
-    // Seçimleri temizle
-    dd.value = [];
-    this.multiSelectFilterColumns([], colName);
+  applyFilters() {
+    let filteredData = this.value;
+    for (const colName in this.filterState) {
+      const filterValue = this.filterState[colName];
+      console.log(filterValue);
+      
+      if (Array.isArray(filterValue)) {
+        filteredData = filteredData.filter((item: any) => filterValue.includes(item[colName]));
+      } else {
+        filteredData = filteredData.filter((item: any) => item[colName] === filterValue);
+      }
+    }
+    this.setData(filteredData);
+    this.onFilter.emit(filteredData);
   }
+
+  clearDropDownSelection(dropDown: MatSelect, colName: string) {
+    dropDown.value = null;
+    delete this.filterState[colName];
+    this.applyFilters();
+  }
+
   //#endregion
+
+
 }

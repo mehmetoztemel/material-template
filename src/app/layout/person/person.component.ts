@@ -28,8 +28,8 @@ export class PersonComponent implements OnInit {
     this.data = [
       { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
       { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-      { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-      { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
+      { position: 3, name: 'Hydrogen', weight: 6.941, symbol: 'Li' },
+      { position: 4, name: 'Hydrogen', weight: 9.0122, symbol: 'Be' },
       { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
       { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
       { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
@@ -51,9 +51,9 @@ export class PersonComponent implements OnInit {
 
     this.cols = [
       { field: 'position', header: 'Position', type: ColumnType.text, style: '15%', filter: ColumnType.text },
-      { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.date },
+      { field: 'name', header: 'Name', type: ColumnType.text, style: '25%', filter: ColumnType.multiSelect },
       { field: 'weight', header: 'Weight', type: ColumnType.num5, style: '20%', filter: ColumnType.text },
-      { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.dropdown, opt: this.symbolOpt },
+      { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect,opt:this.symbolOpt },
       { field: 'Actions', header: '', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '10%', color: "primary", click: this.openDialog.bind(this) },
       { field: 'Actions1', header: '', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '10%', color: "warn", click: this.silDialog.bind(this) }
     ];
@@ -67,13 +67,15 @@ export class PersonComponent implements OnInit {
     this.displayedColumns = this.cols.map(x => x.field);
   }
   openDialog(e: any) {
+
+    let header = e == null ? "Create" : "Detail";
     const dialog = this._dialog.open(EsiDialogComponent, {
       autoFocus: false,
       disableClose: true,
       data: <IDialogDataModel>{
         component: PersonCreateComponent,
         componentData: e,
-        header: "Create"
+        header: header
       },
     });
     dialog.afterClosed().subscribe(result => {

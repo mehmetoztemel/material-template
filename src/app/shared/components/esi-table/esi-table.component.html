@@ -17,38 +17,44 @@
                             autocomplete="off">
                     </ng-container>
                     <ng-container *ngSwitchCase="'multiSelect'">
-                        <mat-select #dd class="filterElement" [ngClass]="closeIcon && dd.value!='' ? 'openDropDown' : ''"
+                        <mat-select #dropDown class="filterElement" 
+                            [ngClass]="closeIcon && dropDown.value!='' ? 'openDropDown' : ''"
                             (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
-                            <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
+                            <!-- <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
+                                {{grp.viewValue}}
+                            </mat-option> -->
+                            <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]" [value]="grp.value">
                                 {{grp.viewValue}}
                             </mat-option>
                         </mat-select>
-                        <mat-icon *ngIf="closeIcon && dd.value!=''" class="fiterIconRight" matSuffix
-                            (click)="clearDropDownSelection(dd, column.field)">clear</mat-icon>
+                        <mat-icon *ngIf="closeIcon && dropDown.value!=''" class="fiterIconRight" matSuffix
+                            (click)="clearDropDownSelection(dropDown, column.field)">clear</mat-icon>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'dropdown'">
-                        <mat-select #dd class="filterElement" [ngClass]="closeIcon && dd.value!='' ? 'openDropDown' : ''"
+                    <ng-container *ngSwitchCase="'dropDown'">
+                        <mat-select #dropDown class="filterElement"
+                            [ngClass]="closeIcon && dropDown.value!='' ? 'openDropDown' : ''"
                             (selectionChange)="dropDownFilterColumns($event.value, column.field)">
-                            <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
+                            <!-- <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
+                                {{grp.viewValue}}
+                            </mat-option> -->
+                            <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]" [value]="grp.value">
                                 {{grp.viewValue}}
                             </mat-option>
                         </mat-select>
-                        <mat-icon *ngIf="closeIcon && dd.value!=''" class="fiterIconRight" matSuffix
-                            (click)="dropDownFilterColumns(dd.value = '',column.field)">clear</mat-icon>
+                        <mat-icon *ngIf="closeIcon && dropDown.value!=''" class="fiterIconRight" matSuffix
+                            (click)="clearDropDownSelection(dropDown,column.field)">clear</mat-icon>
                     </ng-container>
-
                     <ng-container *ngSwitchCase="'date'">
                         <mat-icon class="fiterIcon" matPrefix>event_available</mat-icon>
-                        <input #inpt matInput [matDatepicker]="picker" autocomplete="off" placeholder=""
-                            class="filterElement" (click)="picker.open()"
-                            (dateInput)="dateFilter(inpt.value,column.field)" readonly="true">
+                        <input #inpt matInput [matDatepicker]="picker" autocomplete="off" class="filterElement"
+                            (click)="picker.open()" (dateInput)="dateFilter(inpt.value,column.field)" readonly="true">
                         <mat-datepicker #picker>
                             <mat-datepicker-actions>
                                 <button mat-button matDatepickerCancel>Cancel</button>
                                 <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
                             </mat-datepicker-actions>
                         </mat-datepicker>
-                        <mat-icon class="fiterIconRight" matSuffix
+                        <mat-icon *ngIf="inpt.value != '' " class="fiterIconRight" matSuffix
                             (click)="dateFilter(inpt.value = '',column.field)">clear</mat-icon>
                     </ng-container>
                     <ng-container *ngSwitchDefault>

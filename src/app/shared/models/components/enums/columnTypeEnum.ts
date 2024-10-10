@@ -7,6 +7,6 @@ export enum ColumnType {
     num2 = 'num2',
     num5 = 'num5',
     button = 'button',
-    dropdown = 'dropdown', // for Filter
+    dropDown = 'dropDown', // for Filter
     multiSelect = 'multiSelect', // for Filter
 }
