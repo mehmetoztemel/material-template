@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -28,6 +30,9 @@ import { ColumnType } from '../../models/components/enums/columnTypeEnum';
     MatOptionModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './esi-table.component.html',
@@ -51,7 +56,7 @@ export class EsiTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true })
   sort: MatSort = new MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  filterState: { [key: string]: any[] } = {};
+  filterState: { [key: string]: any } = {};
 
   constructor(public appConfig: AppConfig) {
 
@@ -96,7 +101,6 @@ export class EsiTableComponent implements OnInit {
           const uniqueValues = Array.from(
             new Set(this.dataSource.data.map((x: any) => x[column.field]))
           ).filter(value => value != null && value !== "");
-
           dropdownOptions = uniqueValues.map(option => ({
             viewValue: option,
             value: option
@@ -118,14 +122,31 @@ export class EsiTableComponent implements OnInit {
     this.onFilter.emit(filteredData);
   }
 
+  // dateFilter(event: any, colName: string) {
+  //   if (event != '') {
+  //     const filterValue = new Date(event).toLocaleDateString();
+  //     const filteredData = this.value.filter((item: any) => {
+  //       const itemDate = new Date(item[colName]).toLocaleDateString();
+  //       return itemDate.indexOf(filterValue) !== -1;
+  //     });
+  //     this.setData(filteredData);
+  //     this.onFilter.emit(filteredData);
+  //   }
+  //   else {
+  //     this.setData();
+  //     this.onFilter.emit(this.value);
+  //   }
+
+  // }
+
   dateFilter(event: any, colName: string) {
-    const filterValue = new Date(event).toLocaleDateString();
-    const filteredData = this.value.filter((item: any) => {
-      const itemDate = new Date(item[colName]).toLocaleDateString();
-      return itemDate.indexOf(filterValue) !== -1;
-    });
-    this.setData(filteredData);
-    this.onFilter.emit(filteredData);
+    if (event !== '') {
+      const filterValue = new Date(event).toLocaleDateString();
+      this.filterState[colName] = filterValue;
+    } else {
+      delete this.filterState[colName];
+    }
+    this.applyFilters();
   }
 
   dropDownFilterColumns(selectedValue: any, colName: string) {
@@ -142,34 +163,60 @@ export class EsiTableComponent implements OnInit {
   multiSelectFilterColumns(selectedValues: string[], colName: string) {
     if (selectedValues.length > 0) {
       this.closeIcon = true;
-      if(this.filterState[colName] == null ){
-        this.filterState[colName] = []
-      }
-      this.filterState[colName].push( selectedValues);
-    } 
+      this.filterState[colName] = selectedValues;
+    }
     else {
       delete this.filterState[colName];
       this.closeIcon = false;
     }
-    this.applyFilters();
   }
 
+  // applyFilters() {
+  //   console.log(this.value);
+  //   let filteredData = this.value;
+  //   for (const colName in this.filterState) {
+  //     const filterValue = this.filterState[colName];
+  //     console.log(filterValue);
+  //     if (Array.isArray(filterValue)) {
+  //       filteredData = filteredData.filter((item: any) => filterValue.includes(item[colName]));
+  //     } else {
+  //       filteredData = filteredData.filter((item: any) => item[colName] === filterValue);
+  //       console.log(filteredData);
+  //     }
+  //   }
+  //   this.setData(filteredData);
+  //   this.onFilter.emit(filteredData);
+  // }
   applyFilters() {
-    let filteredData = this.value;
+    let filteredData = [...this.value];
+    // type'ı 'date' olan column'un field adını bul
+    const dateColumn = this.columns.find(col => col.type === ColumnType.date)?.field;
+
     for (const colName in this.filterState) {
       const filterValue = this.filterState[colName];
-      console.log(filterValue);
-      
       if (Array.isArray(filterValue)) {
+        // Çoklu seçim filtresi uygula
         filteredData = filteredData.filter((item: any) => filterValue.includes(item[colName]));
       } else {
-        filteredData = filteredData.filter((item: any) => item[colName] === filterValue);
+        if (colName === dateColumn) {
+          // Tarih filtresini uygula
+          filteredData = filteredData.filter((item: any) => {
+            const itemDate = new Date(item[colName]).toLocaleDateString();
+            const filterDate = new Date(filterValue).toLocaleDateString();
+            // Tarihlerin aynı olup olmadığını kontrol et
+            return itemDate === filterDate;
+          });
+        } else {
+          // Metin veya dropdown filtresi uygula
+          filteredData = filteredData.filter((item: any) =>
+            item[colName]?.toString().toLowerCase().includes(filterValue.toLowerCase())
+          );
+        }
       }
     }
     this.setData(filteredData);
     this.onFilter.emit(filteredData);
   }
-
   clearDropDownSelection(dropDown: MatSelect, colName: string) {
     dropDown.value = null;
     delete this.filterState[colName];
@@ -177,6 +224,5 @@ export class EsiTableComponent implements OnInit {
   }
 
   //#endregion
-
 
 }

@@ -5,6 +5,7 @@
 .mat-mdc-row:nth-child(even) {
   background-color: rgb(91 158 191 / 7%) !important;
 }
+
 .mobile-label {
   display: none;
 }
@@ -23,10 +24,12 @@
   padding: 0px 5px;
   padding-bottom: 10px !important;
 }
-.filterContent{
-display: flex;
-align-items: center;
+
+.filterContent {
+  display: flex;
+  align-items: center;
 }
+
 .fiterIcon {
   font-size: 14px;
   width: 14px;
@@ -45,7 +48,6 @@ align-items: center;
   cursor: pointer;
 }
 
-
 .filterElement {
   width: calc(100% - 22px);
   border: solid 0.5px silver;
@@ -53,38 +55,37 @@ align-items: center;
   padding-left: 18px;
   height: 24px;
 }
-.mat-mdc-select{
+
+.mat-mdc-select {
   padding: 1px;
 }
+
 //  for Filter End >>
 
 // << for Dropdown
- .openDropDown{
-::ng-deep .mat-mdc-select-arrow{
+::ng-deep .openDropDown {
+  .mat-mdc-select-arrow {
     transform: translateX(-23px);
   }
 }
-::ng-deep .mat-mdc-select-arrow{
+
+::ng-deep .mat-mdc-select-arrow {
   transform: translateX(-5px);
 }
 
 ::ng-deep .mat-mdc-select-panel {
   margin-top: 2px !important;
 }
-::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked{
-  // background-color:rgb(45 85 105 / 76%) !important;
+
+::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked {
   border-color: rgba(0, 0, 0, 0) !important;
   background-color: #37474f !important;
 }
-::ng-deep .mat-pseudo-checkbox-full {
-  // border-color: rgb(55 71 79 / 76%) !important;
 
+::ng-deep .mat-pseudo-checkbox-full {
   border-color: #37474f !important;
 }
-::ng-deep .mat-select-trigger {
-  min-width: 80vw !important;
-}
-//  for Dropdown  >>
+
 
 @media (max-width: 800px) {
   td.mat-mdc-cell:first-of-type,
@@ -120,7 +121,6 @@ align-items: center;
   .mat-mdc-header-row {
     display: none;
   }
-
 }
 
 .tableButton {
@@ -128,4 +128,26 @@ align-items: center;
     margin: 3px 0px;
     vertical-align: unset;
   }
+}
+
+footer{
+  border-top:2px solid gray; 
+  height: 44px;
+  padding-top: 10px;
+  text-align:right;
+}
+
+.option-panel {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.multiSelect-Apply{
+    opacity: 0.9;
+    margin-right: 6px;
+}
+
+.multiSelect-Clear{
+      opacity: 0.9;
+    margin-right: 15px;
 }

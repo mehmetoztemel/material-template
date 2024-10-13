@@ -6,7 +6,7 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div class="">
+<div>
   <!-- Card Component -->
   <ng-container *ngIf="data.card">
     <div mat-dialog-content>
@@ -28,7 +28,7 @@
           <div *ngIf="data.card.label" mat-dialog-content>
             <label>{{data.card.label}}</label>
           </div>
-          <ng-container >
+          <ng-container>
             <div *ngIf="data.card.component" mat-dialog-content>
               <ng-template #dynamicComponentContainer></ng-template>
             </div>
