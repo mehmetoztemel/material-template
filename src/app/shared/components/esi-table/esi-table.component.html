@@ -18,7 +18,7 @@
                     </ng-container>
                     <ng-container *ngSwitchCase="'multiSelect'">
                         <mat-select #multiSelect class="filterElement"
-                            [ngClass]="closeIcon && multiSelect.value!=null ? 'openDropDown' : ''"
+                            [ngClass]="closeIcon &&  multiSelect.value?.length > 0 ? 'openDropDown' : ''"
                             (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
                             <!-- <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
                                     {{grp.viewValue}}
@@ -36,11 +36,11 @@
                                     class="multiSelect-Clear">Clear</button>
                             </footer>
                         </mat-select>
-                        <mat-icon *ngIf="closeIcon && multiSelect.value!=null" class="fiterIconRight"
+                        <mat-icon *ngIf="closeIcon && multiSelect.value?.length > 0" class="fiterIconRight"
                             (click)="clearDropDownSelection(multiSelect, column.field)">clear</mat-icon>
                     </ng-container>
                     <ng-container *ngSwitchCase="'dropDown'">
-                        <mat-select #dropDown class="filterElement"
+                        <mat-select #dropDown class="filterElement" id="dd"
                             [ngClass]="closeIcon && dropDown.value!=null ? 'openDropDown' : ''"
                             (selectionChange)="dropDownFilterColumns($event.value, column.field)">
                             <!-- <mat-option *ngFor="let grp of column.opt" [value]="grp.value">

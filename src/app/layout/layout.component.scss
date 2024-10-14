@@ -50,15 +50,6 @@ mat-sidenav-content {
     width: 250px;
 }
 
-.footer {
-    padding: 10px;
-    color: lightslategray;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    font-size: 11px;
-}
-
 :host ::ng-deep .mat-content {
     margin-left: -0.5rem;
 }
@@ -70,7 +61,7 @@ mat-sidenav-content {
 // seçili menü yada üzerine geldiğimizde soluna mavi imleç
 .nav {
     .active-link {
-        background-color: #fafafa;
+        background-color: #e8f2f5;
         border-left: solid 5px #0277bd;
     }
 
@@ -87,7 +78,7 @@ mat-sidenav-content {
         text-decoration: none;
         &:hover {
             cursor: pointer;
-            background-color: #fafafa;
+            background-color: #e8f2f5;
             border-left: solid 5px #0277bd;
         }
     }

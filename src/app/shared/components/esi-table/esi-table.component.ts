@@ -69,7 +69,6 @@ export class EsiTableComponent implements OnInit {
     if (this.showPaginator) {
       this.dataSource.paginator = this.paginator;
     }
-
   }
 
   setData(source?: any[]) {
@@ -122,23 +121,6 @@ export class EsiTableComponent implements OnInit {
     this.onFilter.emit(filteredData);
   }
 
-  // dateFilter(event: any, colName: string) {
-  //   if (event != '') {
-  //     const filterValue = new Date(event).toLocaleDateString();
-  //     const filteredData = this.value.filter((item: any) => {
-  //       const itemDate = new Date(item[colName]).toLocaleDateString();
-  //       return itemDate.indexOf(filterValue) !== -1;
-  //     });
-  //     this.setData(filteredData);
-  //     this.onFilter.emit(filteredData);
-  //   }
-  //   else {
-  //     this.setData();
-  //     this.onFilter.emit(this.value);
-  //   }
-
-  // }
-
   dateFilter(event: any, colName: string) {
     if (event !== '') {
       const filterValue = new Date(event).toLocaleDateString();
@@ -150,6 +132,8 @@ export class EsiTableComponent implements OnInit {
   }
 
   dropDownFilterColumns(selectedValue: any, colName: string) {
+    console.log(selectedValue);
+
     if (selectedValue !== '') {
       this.closeIcon = true;
       this.filterState[colName] = selectedValue;
@@ -171,22 +155,6 @@ export class EsiTableComponent implements OnInit {
     }
   }
 
-  // applyFilters() {
-  //   console.log(this.value);
-  //   let filteredData = this.value;
-  //   for (const colName in this.filterState) {
-  //     const filterValue = this.filterState[colName];
-  //     console.log(filterValue);
-  //     if (Array.isArray(filterValue)) {
-  //       filteredData = filteredData.filter((item: any) => filterValue.includes(item[colName]));
-  //     } else {
-  //       filteredData = filteredData.filter((item: any) => item[colName] === filterValue);
-  //       console.log(filteredData);
-  //     }
-  //   }
-  //   this.setData(filteredData);
-  //   this.onFilter.emit(filteredData);
-  // }
   applyFilters() {
     let filteredData = [...this.value];
     // type'ı 'date' olan column'un field adını bul
@@ -217,12 +185,16 @@ export class EsiTableComponent implements OnInit {
     this.setData(filteredData);
     this.onFilter.emit(filteredData);
   }
-  clearDropDownSelection(dropDown: MatSelect, colName: string) {
-    dropDown.value = null;
+  clearDropDownSelection(select: MatSelect, colName: string) {
+    if (Array.isArray(select.value)) {
+      select.value = [];
+    }
+    else {
+      select.value = null;
+    }
     delete this.filterState[colName];
     this.applyFilters();
   }
-
   //#endregion
 
 }
