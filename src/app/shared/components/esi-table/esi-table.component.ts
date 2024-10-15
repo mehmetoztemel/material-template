@@ -42,7 +42,6 @@ import { ColumnType } from '../../models/components/enums/columnTypeEnum';
 export class EsiTableComponent implements OnInit {
 
   dropdownOptions: IDropdownOption[] = [];
-  closeIcon: boolean = false;
   @Input() value: any[];
   @Input() columns: IColumns[] = [];
   @Input() displayedColumns: string[] = [];
@@ -133,23 +132,19 @@ export class EsiTableComponent implements OnInit {
 
   dropDownFilterColumns(selectedValue: any, colName: string) {
     if (selectedValue !== '') {
-      this.closeIcon = true;
       this.filterState[colName] = selectedValue;
     } else {
       delete this.filterState[colName];
-      this.closeIcon = false;
     }
     this.applyFilters();
   }
 
   multiSelectFilterColumns(selectedValues: string[], colName: string) {
     if (selectedValues.length > 0) {
-      this.closeIcon = true;
       this.filterState[colName] = selectedValues;
     }
     else {
       delete this.filterState[colName];
-      this.closeIcon = false;
     }
   }
 
@@ -183,7 +178,7 @@ export class EsiTableComponent implements OnInit {
     this.setData(filteredData);
     this.onFilter.emit(filteredData);
   }
-  clearDropDownSelection(select: MatSelect, colName: string) {
+  clearDropDownSelection(select: MatSelect, colName: string) {    
     if (Array.isArray(select.value)) {
       select.value = [];
     }
@@ -202,6 +197,6 @@ export class EsiTableComponent implements OnInit {
       return viewValue.includes(filterValue);
     });
   }
-  
+
   //#endregion
 }

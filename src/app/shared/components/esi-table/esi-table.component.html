@@ -23,7 +23,7 @@
                     <!-- Multi Select Filter -->
                     <ng-container *ngSwitchCase="'multiSelect'">
                         <mat-select #multiSelect class="filterElement"
-                            [ngClass]="closeIcon && multiSelect.value?.length > 0 ? 'openDropDown' : ''"
+                            [ngClass]=" multiSelect.value?.length > 0 ? 'openDropDown' : ''"
                             (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
                             <div class="option-panel-wrapper">
                                 <div>
@@ -46,14 +46,14 @@
                                     class="multiSelect-Clear">Clear</button>
                             </footer>
                         </mat-select>
-                        <mat-icon *ngIf="closeIcon && multiSelect.value?.length > 0" class="filterIconRight"
+                        <mat-icon *ngIf="multiSelect.value?.length > 0" class="filterIconRight"
                             (click)="clearDropDownSelection(multiSelect, column.field)">clear</mat-icon>
                     </ng-container>
 
                     <!-- Dropdown Filter -->
                     <ng-container *ngSwitchCase="'dropDown'">
                         <mat-select #dropDown class="filterElement"
-                            [ngClass]="closeIcon && dropDown.value ? 'openDropDown' : ''"
+                            [ngClass]="dropDown.value ? 'openDropDown' : ''"
                             (selectionChange)="dropDownFilterColumns($event.value, column.field)">
                             <div class="option-panel-wrapper">
                                 <div>
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                         </mat-select>
-                        <mat-icon *ngIf="closeIcon && dropDown.value" class="filterIconRight"
+                        <mat-icon *ngIf="dropDown.value" class="filterIconRight"
                             (click)="clearDropDownSelection(dropDown, column.field)">clear</mat-icon>
                     </ng-container>
 
