@@ -12,9 +12,8 @@
 
 // table solid
 ::ng-deep .mat-mdc-table {
-  border: 1px solid rgba(173, 172, 172, 0.3019607843);
+  border: 1px solid rgba(173, 172, 172, 0.3019607843) !important;
   border-radius: 5px;
-  border-bottom-style: solid;
   padding: 10px;
 }
 
@@ -30,7 +29,7 @@
   align-items: center;
 }
 
-.fiterIcon {
+.filterIcon {
   font-size: 14px;
   width: 14px;
   position: absolute;
@@ -38,7 +37,7 @@
   align-content: center;
 }
 
-.fiterIconRight {
+.filterIconRight {
   align-content: center;
   font-size: 15px;
   margin-left: -20px;
@@ -49,7 +48,8 @@
 }
 
 .filterElement {
-  width: calc(100% - 22px);
+  // width: calc(100% - 22px);
+  width: 100%;
   border: solid 0.5px silver;
   border-radius: 0.3em;
   padding-left: 18px;
@@ -72,6 +72,7 @@
 
 ::ng-deep .mat-mdc-select-panel {
   margin-top: 2px !important;
+  max-height: 320px !important ;
 }
 
 ::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked {
@@ -126,7 +127,6 @@
   }
 }
 
-
 /* Mat Select Apply - Cancel Buttons*/
 footer {
   border-top: 2px solid gray;
@@ -149,16 +149,48 @@ footer {
   margin-right: 15px;
 }
 
+.searchFilterIcon {
+  font-size: 18px;
+  position: absolute;
+  align-content: center;
+  margin-top: 2px;
+  margin-left: 1px;
+}
+
+.searchFilterInput{
+  width: calc(100% - 25px);
+  padding: 5px;
+  border: 1px solid silver;
+  border-radius: 5px;
+  padding-left: 18px;
+}
+
+.option-panel-wrapper {
+  position: relative;
+  display: block;
+  div {
+    margin-left: 2px;
+    margin-right: 1px;
+    margin-bottom: 2px;
+  }
+}
+
 @media screen and (max-width: 1400px) {
+  
   .option-panel {
-    max-height: 150px;
-    width: 100%; 
+    max-height: 200px;
+    width: 100%;
   }
 
   .multiSelect-Apply,
   .multiSelect-Clear {
-    width: 100%; 
+    width: 100%;
     text-align: center;
-    margin: 5px 0; 
+    margin: 5px 0;
   }
+}
+
+.filterDropdownElement {
+  @extend .filterElement;
+  padding-left: 0px !important;
 }

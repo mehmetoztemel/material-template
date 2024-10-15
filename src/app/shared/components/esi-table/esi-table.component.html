@@ -1,119 +1,154 @@
 <table mat-table [dataSource]="dataSource" matSort>
-    <ng-container [matColumnDef]="column.field" *ngFor="let column of columns">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.field">
         <th mat-header-cell *matHeaderCellDef [style.width]="column.style" [style.text-align]="column.align">
-            @if (column.type != 'button') {
-            <span mat-sort-header>{{column.header}}</span>
-            }
+            <ng-container *ngIf="column.type !== 'button'">
+                <span mat-sort-header>{{ column.header }}</span>
+            </ng-container>
             <ng-container *ngIf="isFiltered">
                 <div class="filterContent" [ngSwitch]="column.filter">
+                    <!-- Text Filter -->
                     <ng-container *ngSwitchCase="'text'">
-                        <mat-icon class="fiterIcon"> text_fields</mat-icon>
-                        <input matInput type="text" class="filterElement" (keyup)="applyFilter($event, column.field)"
+                        <mat-icon class="filterIcon">text_fields</mat-icon>
+                        <input matInput type="text" class="filterElement" (keyup)="textFilter($event, column.field)"
                             autocomplete="off">
                     </ng-container>
+
+                    <!-- Numeric Text Filter -->
                     <ng-container *ngSwitchCase="'numericText'">
-                        <mat-icon class="fiterIcon">receipt</mat-icon>
-                        <input matInput type="text" class="filterElement" (keyup)="applyFilter($event, column.field)"
+                        <mat-icon class="filterIcon">receipt</mat-icon>
+                        <input matInput type="text" class="filterElement" (keyup)="textFilter($event, column.field)"
                             autocomplete="off">
                     </ng-container>
+
+                    <!-- Multi Select Filter -->
                     <ng-container *ngSwitchCase="'multiSelect'">
                         <mat-select #multiSelect class="filterElement"
-                            [ngClass]="closeIcon &&  multiSelect.value?.length > 0 ? 'openDropDown' : ''"
+                            [ngClass]="closeIcon && multiSelect.value?.length > 0 ? 'openDropDown' : ''"
                             (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
-                            <!-- <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
-                                    {{grp.viewValue}}
-                                </mat-option> -->
-                            <div class="option-panel">
-                                <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]" [value]="grp.value">
-                                    {{grp.viewValue}}
-                                </mat-option>
+                            <div class="option-panel-wrapper">
+                                <div>
+                                    <mat-icon class="searchFilterIcon">search</mat-icon>
+                                    <input matInput type="text" class="searchFilterInput"
+                                        (keyup)="dropDownSearch($event, column)" autocomplete="off">
+                                </div>
+                                <div class="option-panel">
+                                    <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]"
+                                        [value]="grp.value">
+                                        {{ grp.viewValue }}
+                                    </mat-option>
+                                </div>
                             </div>
                             <footer>
                                 <button mat-raised-button color="primary" (click)="applyFilters()"
                                     class="multiSelect-Apply">Apply</button>
                                 <button mat-raised-button color="warn"
-                                    (click)="clearDropDownSelection(multiSelect,column.field)"
+                                    (click)="clearDropDownSelection(multiSelect, column.field)"
                                     class="multiSelect-Clear">Clear</button>
                             </footer>
                         </mat-select>
-                        <mat-icon *ngIf="closeIcon && multiSelect.value?.length > 0" class="fiterIconRight"
+                        <mat-icon *ngIf="closeIcon && multiSelect.value?.length > 0" class="filterIconRight"
                             (click)="clearDropDownSelection(multiSelect, column.field)">clear</mat-icon>
                     </ng-container>
+
+                    <!-- Dropdown Filter -->
                     <ng-container *ngSwitchCase="'dropDown'">
-                        <mat-select #dropDown class="filterElement" id="dd"
-                            [ngClass]="closeIcon && dropDown.value!=null ? 'openDropDown' : ''"
+                        <mat-select #dropDown class="filterElement"
+                            [ngClass]="closeIcon && dropDown.value ? 'openDropDown' : ''"
                             (selectionChange)="dropDownFilterColumns($event.value, column.field)">
-                            <!-- <mat-option *ngFor="let grp of column.opt" [value]="grp.value">
-                                {{grp.viewValue}}
-                            </mat-option> -->
-                            <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]" [value]="grp.value">
-                                {{grp.viewValue}}
-                            </mat-option>
+                            <div class="option-panel-wrapper">
+                                <div>
+                                    <mat-icon class="searchFilterIcon">search</mat-icon>
+                                    <input matInput type="text" class="searchFilterInput"
+                                        (keyup)="dropDownSearch($event, column)" autocomplete="off">
+                                </div>
+                                <div class="option-panel">
+                                    <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]"
+                                        [value]="grp.value">
+                                        {{ grp.viewValue }}
+                                    </mat-option>
+                                </div>
+                            </div>
                         </mat-select>
-                        <mat-icon *ngIf="closeIcon && dropDown.value!=null" class="fiterIconRight"
-                            (click)="clearDropDownSelection(dropDown,column.field)">clear</mat-icon>
+                        <mat-icon *ngIf="closeIcon && dropDown.value" class="filterIconRight"
+                            (click)="clearDropDownSelection(dropDown, column.field)">clear</mat-icon>
                     </ng-container>
+
+                    <!-- Date Filter -->
                     <ng-container *ngSwitchCase="'date'">
-                        <mat-icon class="fiterIcon">event_available</mat-icon>
-                        <input #inpt matInput [matDatepicker]="picker" autocomplete="off" class="filterElement"
-                            (click)="picker.open()" (dateInput)="dateFilter(inpt.value,column.field)" readonly="true">
+                        <mat-icon class="filterIcon">event_available</mat-icon>
+                        <input #inpt matInput [matDatepicker]="picker" class="filterElement" (click)="picker.open()"
+                            (dateInput)="dateFilter(inpt.value, column.field)" readonly="true">
                         <mat-datepicker #picker>
                             <mat-datepicker-actions>
                                 <button mat-button matDatepickerCancel>Cancel</button>
                                 <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
                             </mat-datepicker-actions>
                         </mat-datepicker>
-                        <mat-icon *ngIf="inpt.value != '' " class="fiterIconRight"
-                            (click)="dateFilter(inpt.value = '',column.field)">clear</mat-icon>
-                    </ng-container>
-                    <ng-container *ngSwitchDefault>
-                        <input style="border: none; margin-bottom: 7px;" type="text" aria-label="Departure station"
-                            class="filterElement" matInput [readonly]="true" autocomplete="off">
+                        <mat-icon *ngIf="inpt.value" class="filterIconRight"
+                            (click)="dateFilter(inpt.value = '', column.field)">clear</mat-icon>
                     </ng-container>
                 </div>
             </ng-container>
         </th>
+
         <td mat-cell [ngSwitch]="column.type" *matCellDef="let element" [style.width]="column.style"
             [style.text-align]="column.align">
-            <span *ngIf="appConfig.isMobile ? (column.type == 'button' ? false : true) : true"
-                class="mobile-label">{{column.header}}&nbsp;:</span>
+            <span *ngIf="appConfig.isMobile ? (column.type !== 'button') : true" class="mobile-label">
+                {{ column.header }}&nbsp;:
+            </span>
+
+            <!-- Text Display -->
             <ng-container *ngSwitchCase="'text'">
                 <span class="full-width">
-                    {{element[column.field]}}
+                    {{ element[column.field] }}
                 </span>
             </ng-container>
+
+            <!-- Date Display -->
             <ng-container *ngSwitchCase="'date'">
                 <span class="full-width">
-                    {{element[column.field] | date : 'dd.MM.yyyy'}}
+                    {{ element[column.field] | date : 'dd.MM.yyyy' }}
                 </span>
             </ng-container>
+
+            <!-- Number with 0 Decimal Places -->
             <ng-container *ngSwitchCase="'num0'">
                 <span class="full-width">
-                    {{element[column.field] | number :'.0-0'}}
+                    {{ element[column.field] | number : '.0-0' }}
                 </span>
             </ng-container>
+
+            <!-- Number with 2 Decimal Places -->
             <ng-container *ngSwitchCase="'num2'">
                 <span class="full-width">
-                    {{element[column.field] | number :'.2-2'}}
+                    {{ element[column.field] | number : '.2-2' }}
                 </span>
             </ng-container>
+
+            <!-- Number with 5 Decimal Places -->
             <ng-container *ngSwitchCase="'num5'">
                 <span class="full-width">
-                    {{element[column.field] | number :'.5-5'}}
+                    {{ element[column.field] | number : '.5-5' }}
                 </span>
             </ng-container>
+
+            <!-- Button Action -->
             <ng-container *ngSwitchCase="'button'">
-                <button mat-raised-button class="full-width tableButton" color="{{column.color}}"
+                <button mat-raised-button class="full-width tableButton" color="{{ column.color }}"
                     (click)="column.click(element)">
-                    <mat-icon>{{column.icon}}</mat-icon>
-                    <label>{{column.buttonLabel}}</label>
+                    <mat-icon>{{ column.icon }}</mat-icon>
+                    <label>{{ column.buttonLabel }}</label>
                 </button>
             </ng-container>
         </td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true;"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr><br>
+
+    <!-- Table Header and Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<!-- Paginator -->
 <ng-container *ngIf="showPaginator">
-    <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons>
-    </mat-paginator></ng-container>
+    <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons></mat-paginator>
+</ng-container>

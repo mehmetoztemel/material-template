@@ -50,13 +50,13 @@ export class PersonComponent implements OnInit {
     this.symbolOpt = Utility.getUniqueOptionsByProperty(this.data, 'symbol');
 
     this.cols = [
-      { field: 'position', header: 'Position', type: ColumnType.text, style: '20%', filter: ColumnType.text },
+      { field: 'position', header: 'Position', type: ColumnType.text, style: '20%', filter: ColumnType.date },
       { field: 'name', header: 'Name', type: ColumnType.text, style: '20%', filter: ColumnType.dropDown },
       { field: 'weight', header: 'Weight', type: ColumnType.num5, style: '20%', filter: ColumnType.text },
       { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect,opt:this.symbolOpt },
       // { field: 'date', header: 'Date', type: ColumnType.date, style: '20%', filter: ColumnType.date },
-      { field: 'Actions', header: '', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '5%', color: "primary", click: this.openDialog.bind(this) },
-      { field: 'Actions1', header: '', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '5%', color: "warn", click: this.silDialog.bind(this) }
+      { field: 'Actions', header: 'Detail', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '5%', color: "primary", click: this.openDialog.bind(this) },
+      { field: 'Actions1', header: 'Delete', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '5%', color: "warn", click: this.silDialog.bind(this) }
     ];
 
     //#region Option GroupBy

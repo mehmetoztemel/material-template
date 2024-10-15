@@ -111,7 +111,7 @@ export class EsiTableComponent implements OnInit {
   }
 
   //#region Düzenlemiş Filtreleme Metotları
-  applyFilter(event: Event, colName: string) {
+  textFilter(event: Event, colName: string) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     const filteredData = this.value.filter((item: Record<string, any>) => {
       const columnValue = item[colName]?.toString().toLowerCase() || '';
@@ -132,8 +132,6 @@ export class EsiTableComponent implements OnInit {
   }
 
   dropDownFilterColumns(selectedValue: any, colName: string) {
-    console.log(selectedValue);
-
     if (selectedValue !== '') {
       this.closeIcon = true;
       this.filterState[colName] = selectedValue;
@@ -195,6 +193,15 @@ export class EsiTableComponent implements OnInit {
     delete this.filterState[colName];
     this.applyFilters();
   }
-  //#endregion
 
+  dropDownSearch(event: Event, col: IColumns) {
+    this.updateDropdownOptions();
+    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+    this.dropDownOptionsMap[col.field] = this.dropDownOptionsMap[col.field].filter(option => {
+      const viewValue = option.viewValue ? option.viewValue.toString().toLowerCase() : '';
+      return viewValue.includes(filterValue);
+    });
+  }
+  
+  //#endregion
 }
