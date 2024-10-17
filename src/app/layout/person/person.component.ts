@@ -56,7 +56,7 @@ export class PersonComponent implements OnInit {
       { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect,opt:this.symbolOpt },
       // { field: 'date', header: 'Date', type: ColumnType.date, style: '20%', filter: ColumnType.date },
       { field: 'Actions', header: 'Detail', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '5%', color: "primary", click: this.openDialog.bind(this) },
-      { field: 'Actions1', header: 'Delete', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '5%', color: "warn", click: this.silDialog.bind(this) }
+      { field: 'Actions1', header: 'Delete', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '5%', color: "warn", click: this.silDialog.bind(this),hideColumn :true}
     ];
 
     //#region Option GroupBy

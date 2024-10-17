@@ -76,8 +76,8 @@
                     <!-- Date Filter -->
                     <ng-container *ngSwitchCase="'date'">
                         <mat-icon class="filterIcon">event_available</mat-icon>
-                        <input #inpt matInput [matDatepicker]="picker" class="filterElement" (click)="picker.open()"
-                            (dateInput)="dateFilter(inpt.value, column.field)" readonly="true">
+                        <input #inpt matInput [matDatepicker]="picker" class="filterElement" (click)="picker.open()" 
+                        (dateInput)="dateFilter($event.target.value,column.field)"  readonly="true">
                         <mat-datepicker #picker>
                             <mat-datepicker-actions>
                                 <button mat-button matDatepickerCancel>Cancel</button>
@@ -85,7 +85,11 @@
                             </mat-datepicker-actions>
                         </mat-datepicker>
                         <mat-icon *ngIf="inpt.value" class="filterIconRight"
-                            (click)="dateFilter(inpt.value = '', column.field)">clear</mat-icon>
+                            (click)="clearDateFilter(inpt,picker,column.field)">clear</mat-icon>
+                    </ng-container>
+                    
+                    <ng-container *ngSwitchDefault>
+                        <div style=" height: 28px;"> </div>
                     </ng-container>
                 </div>
             </ng-container>

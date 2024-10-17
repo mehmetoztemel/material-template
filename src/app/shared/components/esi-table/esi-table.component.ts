@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -34,7 +34,7 @@ import { ColumnType } from '../../models/components/enums/columnTypeEnum';
     FormsModule,
     MatInputModule
   ],
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(),DatePipe],
   templateUrl: './esi-table.component.html',
   styleUrl: './esi-table.component.scss',
   changeDetection: ChangeDetectionStrategy.Default
@@ -57,7 +57,7 @@ export class EsiTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   filterState: { [key: string]: any } = {};
 
-  constructor(public appConfig: AppConfig) {
+  constructor(public appConfig: AppConfig,private datePipe : DatePipe) {
 
   }
   ngOnInit(): void {
@@ -120,13 +120,22 @@ export class EsiTableComponent implements OnInit {
     this.onFilter.emit(filteredData);
   }
 
-  dateFilter(event: any, colName: string) {
-    if (event !== '') {
-      const filterValue = new Date(event).toLocaleDateString();
+  dateFilter(event: Date | null, colName: string) {
+    if (event) {
+      const filterValue = this.datePipe.transform(event, 'yyyy-MM-dd');
       this.filterState[colName] = filterValue;
     } else {
       delete this.filterState[colName];
     }
+    this.applyFilters();
+  }
+
+  clearDateFilter(input: HTMLInputElement, picker: MatDatepicker<any>, colName: string) {
+    console.log(picker);
+
+    picker.select(null);
+    input.value = '';
+    delete this.filterState[colName];
     this.applyFilters();
   }
 
@@ -148,7 +157,7 @@ export class EsiTableComponent implements OnInit {
     }
   }
 
-  applyFilters() {
+  applyFilters(matSelect? : MatSelect) {
     let filteredData = [...this.value];
     // type'ı 'date' olan column'un field adını bul
     const dateColumn = this.columns.find(col => col.type === ColumnType.date)?.field;
@@ -175,18 +184,19 @@ export class EsiTableComponent implements OnInit {
         }
       }
     }
+    matSelect?.close()
     this.setData(filteredData);
     this.onFilter.emit(filteredData);
   }
-  clearDropDownSelection(select: MatSelect, colName: string) {    
-    if (Array.isArray(select.value)) {
-      select.value = [];
+  clearDropDownSelection(matSelect: MatSelect, colName: string) {    
+    if (Array.isArray(matSelect.value)) {
+      matSelect.value = [];
     }
     else {
-      select.value = null;
+      matSelect.value = null;
     }
     delete this.filterState[colName];
-    this.applyFilters();
+    this.applyFilters(matSelect);
   }
 
   dropDownSearch(event: Event, col: IColumns) {

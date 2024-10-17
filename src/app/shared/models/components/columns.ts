@@ -15,5 +15,5 @@ export interface IColumns {
     align?: string;
     filter?: string;
     opt?: any[];
-    // for dropdown
+    hideColumn? : boolean;
   }

@@ -20,7 +20,7 @@
 //  << for Filter
 ::ng-deep th.mat-mdc-header-cell {
   align-content: end;
-  padding: 0px 5px;
+  // padding: 0px 5px;
   padding-bottom: 10px !important;
 }
 
@@ -48,8 +48,7 @@
 }
 
 .filterElement {
-  // width: calc(100% - 22px);
-  width: 100%;
+  width: calc(100% - 22px);
   border: solid 0.5px silver;
   border-radius: 0.3em;
   padding-left: 18px;
@@ -83,24 +82,21 @@
 ::ng-deep .mat-pseudo-checkbox-full {
   border-color: #37474f !important;
 }
+::ng-deep .mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding: 5px 5px !important;
+}
+.filterDropdownElement {
+  @extend .filterElement;
+  padding: 1px;
+  // margin-left: 2px;
+}
 
 @media (max-width: 800px) {
-  td.mat-mdc-cell:first-of-type,
-  td.mat-mdc-cell:last-of-type {
-    padding: 5px 20px;
-    width: 100% !important;
-    flex: 1 1 100%;
-    box-sizing: border-box;
-    overflow-wrap: anywhere;
-  }
 
   td.mat-mdc-cell {
     padding: 5px 20px;
     display: flex;
     width: 100% !important;
-    flex: 1 1 100%;
-    box-sizing: border-box;
-    overflow-wrap: anywhere;
   }
 
   .mobile-label {
@@ -109,18 +105,18 @@
     display: inline-table;
     text-align: left !important;
   }
-
-  .mat-mdc-footer-row,
-  .mat-mdc-row {
-    flex-direction: column;
-  }
-
   .mat-mdc-header-row {
     display: none;
   }
+
+  .tableButton {
+    width: 100%;
+  }
+  
 }
 
 .tableButton {
+  // margin: ;
   .mat-icon {
     margin: 3px 0px;
     vertical-align: unset;
@@ -190,7 +186,8 @@ footer {
   }
 }
 
-.filterDropdownElement {
-  @extend .filterElement;
-  padding-left: 0px !important;
-}
+// .filterDropdownElement {
+//   @extend .filterElement;
+//   padding-left: 0px !important;
+// }
+
