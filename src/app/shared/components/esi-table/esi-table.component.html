@@ -26,7 +26,7 @@
                             [ngClass]=" multiSelect.value?.length > 0 ? 'openDropDown' : ''"
                             (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
                             <div class="option-panel-wrapper">
-                                <div>
+                                <div class="search-panel">
                                     <mat-icon class="searchFilterIcon">search</mat-icon>
                                     <input matInput type="text" class="searchFilterInput"
                                         (keyup)="dropDownSearch($event, column)" autocomplete="off">
@@ -39,11 +39,10 @@
                                 </div>
                             </div>
                             <footer>
-                                <button mat-raised-button color="primary" (click)="applyFilters()"
-                                    class="multiSelect-Apply">Apply</button>
-                                <button mat-raised-button color="warn"
-                                    (click)="clearDropDownSelection(multiSelect, column.field)"
-                                    class="multiSelect-Clear">Clear</button>
+                                <div class="footerButtons">
+                                    <button mat-raised-button color="primary" (click)="applyFilters()">Apply</button>
+                                    <button mat-raised-button color="warn" (click)="clearDropDownSelection(multiSelect, column.field)">Clear</button>
+                                </div>
                             </footer>
                         </mat-select>
                         <mat-icon *ngIf="multiSelect.value?.length > 0" class="filterIconRight"
@@ -52,11 +51,10 @@
 
                     <!-- Dropdown Filter -->
                     <ng-container *ngSwitchCase="'dropDown'">
-                        <mat-select #dropDown class="filterElement"
-                            [ngClass]="dropDown.value ? 'openDropDown' : ''"
+                        <mat-select #dropDown class="filterElement" [ngClass]="dropDown.value ? 'openDropDown' : ''"
                             (selectionChange)="dropDownFilterColumns($event.value, column.field)">
                             <div class="option-panel-wrapper">
-                                <div>
+                                <div class="search-panel">
                                     <mat-icon class="searchFilterIcon">search</mat-icon>
                                     <input matInput type="text" class="searchFilterInput"
                                         (keyup)="dropDownSearch($event, column)" autocomplete="off">
@@ -76,8 +74,8 @@
                     <!-- Date Filter -->
                     <ng-container *ngSwitchCase="'date'">
                         <mat-icon class="filterIcon">event_available</mat-icon>
-                        <input #inpt matInput [matDatepicker]="picker" class="filterElement" (click)="picker.open()" 
-                        (dateInput)="dateFilter($event.target.value,column.field)"  readonly="true">
+                        <input #inpt matInput [matDatepicker]="picker" class="filterElement" (click)="picker.open()"
+                            (dateInput)="dateFilter($event.target.value,column.field)" readonly="true">
                         <mat-datepicker #picker>
                             <mat-datepicker-actions>
                                 <button mat-button matDatepickerCancel>Cancel</button>
@@ -87,7 +85,7 @@
                         <mat-icon *ngIf="inpt.value" class="filterIconRight"
                             (click)="clearDateFilter(inpt,picker,column.field)">clear</mat-icon>
                     </ng-container>
-                    
+
                     <ng-container *ngSwitchDefault>
                         <div style=" height: 28px;"> </div>
                     </ng-container>
