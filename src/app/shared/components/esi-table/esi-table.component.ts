@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatOptionModule } from '@angular/material/core';
 import { MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -34,7 +34,7 @@ import { ColumnType } from '../../models/components/enums/columnTypeEnum';
     FormsModule,
     MatInputModule
   ],
-  providers: [provideNativeDateAdapter(),DatePipe],
+  providers: [],
   templateUrl: './esi-table.component.html',
   styleUrl: './esi-table.component.scss',
   changeDetection: ChangeDetectionStrategy.Default
@@ -47,6 +47,7 @@ export class EsiTableComponent implements OnInit {
   @Input() displayedColumns: string[] = [];
   @Input() isFiltered: boolean = true;
   @Input() showPaginator: boolean = true;
+  @Input() showSorted :boolean = false;
   dataSource: MatTableDataSource<any>;
   @Output() onFilter: EventEmitter<any> = new EventEmitter();
   @Output() dateInput: EventEmitter<MatDatepickerInputEvent<any>>
@@ -109,7 +110,6 @@ export class EsiTableComponent implements OnInit {
     });
   }
 
-  //#region Düzenlemiş Filtreleme Metotları
   textFilter(event: Event, colName: string) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     const filteredData = this.value.filter((item: Record<string, any>) => {
@@ -207,6 +207,4 @@ export class EsiTableComponent implements OnInit {
       return viewValue.includes(filterValue);
     });
   }
-
-  //#endregion
 }

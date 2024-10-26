@@ -2,7 +2,12 @@
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.field">
         <th mat-header-cell *matHeaderCellDef [style.width]="column.style" [style.text-align]="column.align">
             <ng-container *ngIf="column.type !== 'button'">
-                <span mat-sort-header>{{ column.header }}</span>
+                <ng-container *ngIf="showSorted">
+                    <span mat-sort-header>{{ column.header }}</span>
+                </ng-container>
+                <ng-container *ngIf="!showSorted">
+                    <span mat-header>{{ column.header }}</span>
+                </ng-container>
             </ng-container>
             <ng-container *ngIf="isFiltered">
                 <div class="filterContent" [ngSwitch]="column.filter">
@@ -76,7 +81,7 @@
                         <mat-icon class="filterIcon">event_available</mat-icon>
                         <input #inpt matInput [matDatepicker]="picker" class="filterElement" (click)="picker.open()"
                             (dateInput)="dateFilter($event.target.value,column.field)" readonly="true">
-                        <mat-datepicker #picker>
+                        <mat-datepicker #picker >
                             <mat-datepicker-actions>
                                 <button mat-button matDatepickerCancel>Cancel</button>
                                 <button mat-raised-button color="primary" matDatepickerApply>Apply</button>

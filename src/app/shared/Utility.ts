@@ -1,3 +1,4 @@
+import { NativeDateAdapter } from "@angular/material/core";
 import { IDropdownOption } from "./models/components/dropdownOption";
 
 export class Utility {
@@ -5,5 +6,13 @@ export class Utility {
     const uniqueValues = Array.from(new Set(data.map(element => element[property])));
     const options = uniqueValues.map(value => ({ viewValue: String(value), value: value }));
     return options;
+  }
+}
+
+
+export class CustomDateAdapter extends NativeDateAdapter {
+
+  override getFirstDayOfWeek(): number {
+    return 1;
   }
 }
