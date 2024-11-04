@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppConfig } from '../../app.config';
 import { FormTypes } from '../../shared/models/components/enums/formtypes';
 import { IFormComponent } from '../../shared/models/components/formComponent';
@@ -14,16 +14,13 @@ export class PersonCreateComponent implements OnInit {
   createPersonForm: FormGroup;
   createForm: IFormComponent[] = [];
   person: any;
-  constructor(public appConfig: AppConfig, public dialogRef: MatDialogRef<PersonCreateComponent>) { }
+  constructor(public appConfig: AppConfig, @Inject(MAT_DIALOG_DATA) public data: { componentData?: any }) { }
 
   ngOnInit() {
-    const componentInstance = this.dialogRef.componentInstance as { data?: { componentData?: any } };
-    const componentData = componentInstance?.data?.componentData;
-    if (componentData) {
-      // console.log('Component Data:', componentData);
-      this.person = componentData;
+    if (this.data?.componentData) {
+      this.person = this.data.componentData;
+      console.log(this.person);
     }
-
     this.setForm();
   }
   get form() { return this.createPersonForm.controls; }
