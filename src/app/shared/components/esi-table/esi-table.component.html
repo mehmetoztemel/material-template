@@ -46,7 +46,8 @@
                             <footer>
                                 <div class="footerButtons">
                                     <button mat-raised-button color="primary" (click)="applyFilters()">Apply</button>
-                                    <button mat-raised-button color="warn" (click)="clearDropDownSelection(multiSelect, column.field)">Clear</button>
+                                    <button mat-raised-button color="warn"
+                                        (click)="clearDropDownSelection(multiSelect, column.field)">Clear</button>
                                 </div>
                             </footer>
                         </mat-select>
@@ -81,12 +82,7 @@
                         <mat-icon class="filterIcon">event_available</mat-icon>
                         <input #inpt matInput [matDatepicker]="picker" class="filterElement" (click)="picker.open()"
                             (dateInput)="dateFilter($event.target.value,column.field)" readonly="true">
-                        <mat-datepicker #picker >
-                            <mat-datepicker-actions>
-                                <button mat-button matDatepickerCancel>Cancel</button>
-                                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                            </mat-datepicker-actions>
-                        </mat-datepicker>
+                        <mat-datepicker #picker [dateClass]="appConfig.dateClass"></mat-datepicker>
                         <mat-icon *ngIf="inpt.value" class="filterIconRight"
                             (click)="clearDateFilter(inpt,picker,column.field)">clear</mat-icon>
                     </ng-container>

@@ -38,21 +38,19 @@ export class LayoutComponent implements OnInit {
       Breakpoints.Medium,
       Breakpoints.Large,
       Breakpoints.XLarge
-    ])
-      .subscribe(result => {
+    ]).subscribe(result => {
         if (result.matches) {
           if (result.breakpoints[Breakpoints.XSmall] || result.breakpoints[Breakpoints.Small]) {
             // console.log('xs or s');
-            this.appConfig.grid.cols = 1;
             this.appConfig.isMobile = true;
-          } else if (result.breakpoints[Breakpoints.Medium] || result.breakpoints[Breakpoints.Large]) {
+          } else if (result.breakpoints[Breakpoints.Medium]) {
             // console.log('m or l');
-            this.appConfig.grid.cols = 2;
             this.appConfig.isMobile = false;
-          } else if (result.breakpoints[Breakpoints.XLarge]) {
+            this.isCollapsed=true;
+          } else if (result.breakpoints[Breakpoints.Large] || result.breakpoints[Breakpoints.XLarge]) {
             // console.log('xl');
-            this.appConfig.grid.cols = 3;
             this.appConfig.isMobile = false;
+            this.isCollapsed=false;
           }
         }
       });
