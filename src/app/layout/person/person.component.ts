@@ -19,7 +19,7 @@ export class PersonComponent implements OnInit {
   displayedColumns: string[]
   data: PeriodicElement[] = [];
   symbolOpt: IDropdownOption[] = [];
-  constructor(private _dialog: MatDialog) { }
+  constructor(private personDetailDialog: MatDialog) { }
   ngOnInit(): void {
     this.setTableCols();
   }
@@ -69,7 +69,7 @@ export class PersonComponent implements OnInit {
   }
   openDialog(e: any) {
     let header = e == null ? "Create" : "Detail";
-    const dialog = this._dialog.open(EsiDialogComponent, {
+    const dialog = this.personDetailDialog.open(EsiDialogComponent, {
       autoFocus: false,
       disableClose: true,
       hasBackdrop: true,
@@ -94,7 +94,7 @@ export class PersonComponent implements OnInit {
     };
     dialogConfig.hasBackdrop = true;
 
-    let dialogRef = this._dialog.open(PersonCreateComponent, dialogConfig);
+    let dialogRef = this.personDetailDialog.open(PersonCreateComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Diyalog sonucu: ", result);
@@ -111,13 +111,11 @@ export class PersonComponent implements OnInit {
       button1: "Evet",
       button2: "Hayır"
     };
-    let dialogRef = this._dialog.open(EsiDialogComponent, dialogConfig);
+    let dialogRef = this.personDetailDialog.open(EsiDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       // console.log(result);
     });
   }
-
-
 }
 export interface PeriodicElement {
   name: string;

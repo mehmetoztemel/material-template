@@ -8,12 +8,7 @@ export class AppConfig {
   public Api: string = 'api/';
   public ApiUrl = this.Server + this.Api;
   public isMobile: boolean = false;
-  // public cols: number = 2;
-  public grid = {
-    cols: 4,
-    // rowHeight: '80px',
-    // gutterSize: '5px'
-  };
+  public gridConfig = <GridConfig>{};
 
   public dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     if (view === 'month') {
@@ -22,4 +17,9 @@ export class AppConfig {
     }
     return '';
   };
+}
+export interface GridConfig {
+  cols: number;
+  colspan: number;
+  isMobile: boolean;
 }

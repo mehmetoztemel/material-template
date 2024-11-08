@@ -23,6 +23,38 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
     this.userInfo = localStorage.getItem("userName");
+    const gridConfig = {
+      [Breakpoints.XSmall]: { cols: 1, colspan: 1, isMobile: true, label: 'xs' },
+      [Breakpoints.Small]: { cols: 2, colspan: 2, isMobile: true, label: 's' },
+      [Breakpoints.Medium]: { cols: 2, colspan: 1, isMobile: false, label: 'm' },
+      [Breakpoints.Large]: { cols: 2, colspan: 1, isMobile: false, label: 'l' },
+      [Breakpoints.XLarge]: { cols: 2, colspan: 1, isMobile: false, label: 'xl' },
+    };
+
+    this.breakpointObserver.observe(Object.keys(gridConfig))
+    .subscribe(result => {
+      if (result.matches) {
+        if (result.breakpoints[Breakpoints.XSmall]) {
+          this.setAppConfig(gridConfig[Breakpoints.XSmall]);
+        }
+        else if (result.breakpoints[Breakpoints.Small]) {
+          this.setAppConfig(gridConfig[Breakpoints.Small]);
+        }
+        else if (result.breakpoints[Breakpoints.Medium]) {
+          this.setAppConfig(gridConfig[Breakpoints.Medium]);
+          this.isCollapsed=true;
+        }
+        else if (result.breakpoints[Breakpoints.Large]) {
+          this.setAppConfig(gridConfig[Breakpoints.Large]);
+          this.isCollapsed=false;
+        }
+        else if (result.breakpoints[Breakpoints.XLarge]) {
+          this.setAppConfig(gridConfig[Breakpoints.XLarge]);
+          this.isCollapsed=false;
+        }
+      }
+    });
+
     // this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
     //   if (screenSize.matches) {
     //     this.appConfig.isMobile = true;
@@ -32,28 +64,29 @@ export class LayoutComponent implements OnInit {
     //     this.appConfig.cols = 2;
     //   }
     // });
-    this.breakpointObserver.observe([
-      Breakpoints.XSmall,
-      Breakpoints.Small,
-      Breakpoints.Medium,
-      Breakpoints.Large,
-      Breakpoints.XLarge
-    ]).subscribe(result => {
-        if (result.matches) {
-          if (result.breakpoints[Breakpoints.XSmall] || result.breakpoints[Breakpoints.Small]) {
-            // console.log('xs or s');
-            this.appConfig.isMobile = true;
-          } else if (result.breakpoints[Breakpoints.Medium]) {
-            // console.log('m or l');
-            this.appConfig.isMobile = false;
-            this.isCollapsed=true;
-          } else if (result.breakpoints[Breakpoints.Large] || result.breakpoints[Breakpoints.XLarge]) {
-            // console.log('xl');
-            this.appConfig.isMobile = false;
-            this.isCollapsed=false;
-          }
-        }
-      });
+
+    // this.breakpointObserver.observe([
+    //   Breakpoints.XSmall,
+    //   Breakpoints.Small,
+    //   Breakpoints.Medium,
+    //   Breakpoints.Large,
+    //   Breakpoints.XLarge
+    // ]).subscribe(result => {
+    //     if (result.matches) {
+    //       if (result.breakpoints[Breakpoints.XSmall] || result.breakpoints[Breakpoints.Small]) {
+    //         // console.log('xs or s');
+    //         this.appConfig.isMobile = true;
+    //       } else if (result.breakpoints[Breakpoints.Medium]) {
+    //         // console.log('m or l');
+    //         this.appConfig.isMobile = false;
+    //         this.isCollapsed=true;
+    //       } else if (result.breakpoints[Breakpoints.Large] || result.breakpoints[Breakpoints.XLarge]) {
+    //         // console.log('xl');
+    //         this.appConfig.isMobile = false;
+    //         this.isCollapsed=false;
+    //       }
+    //     }
+    //   });
   }
 
   toggleMenu() {
@@ -64,6 +97,12 @@ export class LayoutComponent implements OnInit {
       this.sidenav.open();
       this.isCollapsed = !this.isCollapsed;
     }
+  }
+
+  private setAppConfig(config: any, logLabel: string = '') {
+    this.appConfig.gridConfig.cols = config.cols;
+    this.appConfig.gridConfig.colspan = config.colspan;
+    this.appConfig.isMobile = config.isMobile;
   }
 
   LogOut() {

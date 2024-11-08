@@ -1,11 +1,15 @@
-<div style="display: flex; align-items: center; justify-content: space-between;">
-  <div mat-dialog-title>
-    {{data.header}}
+<ng-container *ngIf="data.header" >
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <div mat-dialog-title>
+      {{data.header}}
+    </div>
+    <ng-container *ngIf="!data.label" >
+      <button  mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </ng-container>
   </div>
-  <button mat-icon-button (click)="closeDialog()">
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+</ng-container>
 <div>
   <!-- Card Component -->
   <ng-container *ngIf="data.card">
@@ -14,7 +18,7 @@
         <mat-card-title style="text-align: center;">
           {{data.card.header}}
         </mat-card-title>
-        <mat-card-content>
+        <mat-card-content style="padding-top: 15px;">
           <!-- Form Inside Card -->
           <div *ngIf="data.card.formGroup && data.card.formType">
             <esi-form [formGroup]="data.card.formGroup" [forms]="data.card.formType"></esi-form>
@@ -55,7 +59,7 @@
 
   <ng-container *ngIf="data.label">
     <!-- Standalone Label -->
-    <div mat-dialog-content>
+    <div mat-dialog-content style="padding: 15px !important;">
       <label>{{data.label}}</label>
     </div>
   </ng-container>

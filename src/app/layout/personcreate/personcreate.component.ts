@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppConfig } from '../../app.config';
+import { IDialogDataModel } from '../../shared/models/components/dialogDataModel';
 import { FormTypes } from '../../shared/models/components/enums/formtypes';
 import { IFormComponent } from '../../shared/models/components/formComponent';
 
@@ -14,11 +15,11 @@ export class PersonCreateComponent implements OnInit {
   createPersonForm: FormGroup;
   createForm: IFormComponent[] = [];
   person: any;
-  constructor(public appConfig: AppConfig, @Inject(MAT_DIALOG_DATA) public data: { componentData?: any }) { }
+  constructor(public appConfig: AppConfig, @Inject(MAT_DIALOG_DATA) public dialogData:IDialogDataModel) { }
 
   ngOnInit() {
-    if (this.data?.componentData) {
-      this.person = this.data.componentData;
+    if (this.dialogData?.componentData) {
+      this.person = this.dialogData.componentData;
       console.log(this.person);
     }
     this.setForm();
@@ -27,8 +28,8 @@ export class PersonCreateComponent implements OnInit {
 
   setForm() {
     this.createForm = [
-      { label: 'Email', type: FormTypes.text, value: "", control: 'email', hide: false, req: true },
-      { label: 'Password', type: FormTypes.text, value: "", control: 'password', hide: false, req: true },
+      { label: 'Email', type: FormTypes.text, control: 'email', hide: false, req: true },
+      { label: 'Password', type: FormTypes.text, control: 'password', hide: false, req: true },
     ];
 
     this.createPersonForm = new FormGroup({
