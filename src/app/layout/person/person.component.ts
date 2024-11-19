@@ -53,14 +53,15 @@ export class PersonComponent implements OnInit {
       { field: 'position', header: 'Position', type: ColumnType.text, style: '20%', filter: ColumnType.date },
       { field: 'name', header: 'Name', type: ColumnType.text, style: '20%', filter: ColumnType.dropDown },
       { field: 'weight', header: 'Weight', type: ColumnType.num5, style: '20%', filter: ColumnType.text },
-      { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect, opt: this.symbolOpt },
+      { field: 'symbol', header: 'Symbol', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect },
       // { field: 'date', header: 'Date', type: ColumnType.date, style: '20%', filter: ColumnType.date },
       { field: 'Actions', header: 'Detail', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '5%', color: "primary", click: this.openDialog.bind(this) },
       { field: 'Actions1', header: 'Delete', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '5%', color: "warn", click: this.silDialog.bind(this), hideColumn: true }
     ];
 
     //#region Option GroupBy
-    // const uniqueSymbols = Array.from(new Set(this.data.map(element => element.symbol)));
+    // const uniqueSymbols = Array.from(new Set(this.data.map(element => element.symbol)));y
+
     // uniqueSymbols.forEach(symbol => {
     //   this.symbolOpt.push({ viewValue: symbol, value: symbol });
     // });

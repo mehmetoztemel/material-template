@@ -22,9 +22,10 @@ body {
 
 // we used this for mat card component to put middle
 .card-margin {
-    margin: 25px;
-    padding-top: 25px;
+    margin: 25px 25px 60px 25px;
+    // padding-top: 25px;
 }
+
 .mat-mdc-card-outlined {
     box-shadow: rgba(130, 184, 197, 0.15) 0px 2px 8px !important;
 }
