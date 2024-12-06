@@ -30,6 +30,13 @@
                         <mat-select #multiSelect class="filterElement"
                             [ngClass]=" multiSelect.value?.length > 0 ? 'openDropDown' : ''"
                             (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
+                            <mat-select-trigger>
+                                {{multiSelect.value?.[0] || ''}}
+                                @if ((multiSelect.value?.length || 0) > 1) {
+                                (+{{(multiSelect.value?.length || 0) - 1}} {{multiSelect.value?.length === 2 ? 'other' :
+                                'others'}})
+                                }
+                            </mat-select-trigger>
                             <div class="option-panel-wrapper">
                                 <div class="search-panel">
                                     <mat-icon class="searchFilterIcon">search</mat-icon>
@@ -37,6 +44,9 @@
                                         (keyup)="dropDownSearch($event, column)" autocomplete="off">
                                 </div>
                                 <div class="option-panel">
+                                    <mat-option value="0" (click)="selectAll(multiSelect,column.field)"
+                                        #matOption>Tümünü
+                                        Seç</mat-option>
                                     <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]"
                                         [value]="grp.value">
                                         {{ grp.viewValue }}

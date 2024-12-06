@@ -47,11 +47,11 @@ export class EsiDialogComponent implements OnInit {
     //   this.componentRef = this.container.createComponent(this.data.card.component as Type<any>);
     // }
   }
-  // ngOnDestroy() {
-  //   if (this.componentRef) {
-  //     this.componentRef.destroy();
-  //   }
-  // }
+  ngOnDestroy() {
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
+  }
 
   closeDialog() {
     this.dialogRef.close();

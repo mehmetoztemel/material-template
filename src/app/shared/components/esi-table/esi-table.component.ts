@@ -47,7 +47,7 @@ export class EsiTableComponent implements OnInit {
   @Input() displayedColumns: string[] = [];
   @Input() isFiltered: boolean = true;
   @Input() showPaginator: boolean = true;
-  @Input() showSorted :boolean = false;
+  @Input() showSorted: boolean = false;
   dataSource: MatTableDataSource<any>;
   @Output() onFilter: EventEmitter<any> = new EventEmitter();
   @Output() dateInput: EventEmitter<MatDatepickerInputEvent<any>>
@@ -58,7 +58,7 @@ export class EsiTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   filterState: { [key: string]: any } = {};
 
-  constructor(public appConfig: AppConfig,private datePipe : DatePipe) {
+  constructor(public appConfig: AppConfig, private datePipe: DatePipe) {
 
   }
   ngOnInit(): void {
@@ -148,6 +148,20 @@ export class EsiTableComponent implements OnInit {
     this.applyFilters();
   }
 
+  selectAll(multiSelect: MatSelect, field: string): void {
+    const options = this.dropDownOptionsMap[field]; // Fetch all options for the field
+    if (options && options.length > 0) {
+      if (multiSelect.value?.length > 0) {
+        // Clear selection first
+        multiSelect.value = [];
+      }
+      // Select all options
+      const allValues = options.map(option => option.value); // Extract all values
+      multiSelect.value = allValues; // Set all options as selected
+      multiSelect._onChange(allValues); // Notify MatSelect about the change
+    }
+  }
+
   multiSelectFilterColumns(selectedValues: string[], colName: string) {
     if (selectedValues.length > 0) {
       this.filterState[colName] = selectedValues;
@@ -157,7 +171,7 @@ export class EsiTableComponent implements OnInit {
     }
   }
 
-  applyFilters(matSelect? : MatSelect) {
+  applyFilters(matSelect?: MatSelect) {
     let filteredData = [...this.value];
     // type'ı 'date' olan column'un field adını bul
     const dateColumn = this.columns.find(col => col.type === ColumnType.date)?.field;
@@ -188,7 +202,7 @@ export class EsiTableComponent implements OnInit {
     this.setData(filteredData);
     this.onFilter.emit(filteredData);
   }
-  clearDropDownSelection(matSelect: MatSelect, colName: string) {    
+  clearDropDownSelection(matSelect: MatSelect, colName: string) {
     if (Array.isArray(matSelect.value)) {
       matSelect.value = [];
     }
@@ -207,4 +221,5 @@ export class EsiTableComponent implements OnInit {
       return viewValue.includes(filterValue);
     });
   }
+
 }
