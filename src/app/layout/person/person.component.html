@@ -3,14 +3,9 @@
         Persons
     </mat-card-title>
     <mat-card-content>
-        <div style="display: flex; justify-content: flex-start;">
-            <button mat-raised-button style="margin:5px 7px; " color="primary" (click)="openDialog(null)">
-                <mat-icon>control_point</mat-icon>
-                Yeni
-            </button>
-        </div>
         <div>
-            <esi-table [columns]="cols" [value]="data" [displayedColumns]="displayedColumns" [showPaginator]="true" [showSorted]="true">
+            <esi-table [columns]="cols" [value]="data" [displayedColumns]="displayedColumns" [showPaginator]="true"
+                [showSorted]="true" [isNewActive]="true" (onNewClick)="openDialog(null)">
             </esi-table>
         </div>
     </mat-card-content>

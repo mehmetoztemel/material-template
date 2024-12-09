@@ -48,21 +48,28 @@ export class EsiTableComponent implements OnInit {
   @Input() isFiltered: boolean = true;
   @Input() showPaginator: boolean = true;
   @Input() showSorted: boolean = false;
+  @Input() isNewActive: boolean = false;
   dataSource: MatTableDataSource<any>;
   @Output() onFilter: EventEmitter<any> = new EventEmitter();
   @Output() dateInput: EventEmitter<MatDatepickerInputEvent<any>>
+  @Output() onNewClick: EventEmitter<any> = new EventEmitter();
   dropDownOptionsMap: { [key: string]: IDropdownOption[] } = {};
-
-  @ViewChild(MatSort, { static: true })
-  sort: MatSort = new MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   filterState: { [key: string]: any } = {};
 
   constructor(public appConfig: AppConfig, private datePipe: DatePipe) {
-
   }
   ngOnInit(): void {
     this.setData();
+  }
+
+  ngOnChanges() {
+    this.setData();
+  }
+
+  onNew() {
+    this.onNewClick.emit();
   }
 
   ngAfterViewInit() {
@@ -85,29 +92,32 @@ export class EsiTableComponent implements OnInit {
   }
 
   updateDropdownOptions() {
-    this.columns.forEach(column => {
-      if (column.filter === ColumnType.dropDown || column.filter === ColumnType.multiSelect) {
-        let dropdownOptions: IDropdownOption[] = [];
-        if (column.opt?.length > 0) {
-          dropdownOptions = column.opt
-            .filter(opt => this.dataSource.data.some((x: any) => x[column.field] === opt.value))
-            .map(opt => ({
-              viewValue: opt.value,
-              value: opt.value
+    if (this.columns != null) {
+
+      this.columns.forEach(column => {
+        if (column.filter === ColumnType.dropDown || column.filter === ColumnType.multiSelect) {
+          let dropdownOptions: IDropdownOption[] = [];
+          if (column.opt?.length > 0) {
+            dropdownOptions = column.opt
+              .filter(opt => this.dataSource.data.some((x: any) => x[column.field] === opt.value))
+              .map(opt => ({
+                viewValue: opt.value,
+                value: opt.value
+              }));
+          }
+          else {
+            const uniqueValues = Array.from(
+              new Set(this.dataSource.data.map((x: any) => x[column.field]))
+            ).filter(value => value != null && value !== "");
+            dropdownOptions = uniqueValues.map(option => ({
+              viewValue: option,
+              value: option
             }));
+          }
+          this.dropDownOptionsMap[column.field] = dropdownOptions;
         }
-        else {
-          const uniqueValues = Array.from(
-            new Set(this.dataSource.data.map((x: any) => x[column.field]))
-          ).filter(value => value != null && value !== "");
-          dropdownOptions = uniqueValues.map(option => ({
-            viewValue: option,
-            value: option
-          }));
-        }
-        this.dropDownOptionsMap[column.field] = dropdownOptions;
-      }
-    });
+      });
+    }
   }
 
   textFilter(event: Event, colName: string) {
@@ -131,8 +141,6 @@ export class EsiTableComponent implements OnInit {
   }
 
   clearDateFilter(input: HTMLInputElement, picker: MatDatepicker<any>, colName: string) {
-    console.log(picker);
-
     picker.select(null);
     input.value = '';
     delete this.filterState[colName];
@@ -146,20 +154,6 @@ export class EsiTableComponent implements OnInit {
       delete this.filterState[colName];
     }
     this.applyFilters();
-  }
-
-  selectAll(multiSelect: MatSelect, field: string): void {
-    const options = this.dropDownOptionsMap[field]; // Fetch all options for the field
-    if (options && options.length > 0) {
-      if (multiSelect.value?.length > 0) {
-        // Clear selection first
-        multiSelect.value = [];
-      }
-      // Select all options
-      const allValues = options.map(option => option.value); // Extract all values
-      multiSelect.value = allValues; // Set all options as selected
-      multiSelect._onChange(allValues); // Notify MatSelect about the change
-    }
   }
 
   multiSelectFilterColumns(selectedValues: string[], colName: string) {
@@ -221,5 +215,4 @@ export class EsiTableComponent implements OnInit {
       return viewValue.includes(filterValue);
     });
   }
-
 }

@@ -1,82 +1,81 @@
-<ng-container *ngIf="data.header" >
+<ng-container *ngIf="data.header">
   <div style="display: flex; align-items: center; justify-content: space-between;">
     <div mat-dialog-title>
       {{data.header}}
     </div>
-    <ng-container *ngIf="!data.label" >
-      <button  mat-icon-button (click)="closeDialog()">
+    <ng-container *ngIf="!data.label">
+      <button mat-icon-button (click)="closeDialog()">
         <mat-icon>close</mat-icon>
       </button>
     </ng-container>
   </div>
 </ng-container>
-<div>
-  <!-- Card Component -->
-  <ng-container *ngIf="data.card">
-    <div mat-dialog-content>
-      <mat-card appearance="outlined">
-        <mat-card-title style="text-align: center;">
-          {{data.card.header}}
-        </mat-card-title>
-        <mat-card-content style="padding-top: 15px;">
-          <!-- Form Inside Card -->
-          <div *ngIf="data.card.formGroup && data.card.formType">
-            <esi-form [formGroup]="data.card.formGroup" [forms]="data.card.formType"></esi-form>
+
+<!-- Card Component -->
+<ng-container *ngIf="data.card">
+  <mat-dialog-content>
+    <mat-card appearance="outlined">
+      <mat-card-title style="text-align: center;">
+        {{data.card.header}}
+      </mat-card-title>
+      <mat-card-content style="padding-top: 15px;">
+        <!-- Form Inside Card -->
+        <div *ngIf="data.card.formGroup && data.card.formType">
+          <esi-form [formGroup]="data.card.formGroup" [forms]="data.card.formType"></esi-form>
+        </div>
+        <!-- Table Inside Card -->
+        <div *ngIf="data.card.table">
+          <esi-table [value]="data.card.table" [columns]="data.card.col"
+            [displayedColumns]="data.card.dspCol"></esi-table>
+        </div>
+        <!-- Label Inside Card -->
+        <div *ngIf="data.card.label" mat-dialog-content>
+          <label>{{data.card.label}}</label>
+        </div>
+        <ng-container>
+          <div *ngIf="data.card.component" mat-dialog-content>
+            <ng-template #dynamicComponentContainer></ng-template>
           </div>
-          <!-- Table Inside Card -->
-          <div *ngIf="data.card.table">
-            <esi-table [value]="data.card.table" [columns]="data.card.col"
-              [displayedColumns]="data.card.dspCol"></esi-table>
-          </div>
-          <!-- Label Inside Card -->
-          <div *ngIf="data.card.label" mat-dialog-content>
-            <label>{{data.card.label}}</label>
-          </div>
-          <ng-container>
-            <div *ngIf="data.card.component" mat-dialog-content>
-              <ng-template #dynamicComponentContainer></ng-template>
-            </div>
-          </ng-container>
+        </ng-container>
 
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+</ng-container>
 
-  <ng-container *ngIf="data.table">
-    <!-- Standalone Table -->
-    <div mat-dialog-content>
-      <esi-table [value]="data.table" [columns]="data.col" [displayedColumns]="data.dspCol"></esi-table>
-    </div>
-  </ng-container>
+<!-- Standalone Table -->
+<ng-container *ngIf="data.table">
+  <mat-dialog-content>
+    <esi-table [value]="data.table" [columns]="data.col" [displayedColumns]="data.dspCol"></esi-table>
+  </mat-dialog-content>
+</ng-container>
 
-  <ng-container *ngIf="data.formGroup && data.formType">
-    <!-- Standalone Form -->
-    <div mat-dialog-content>
-      <esi-form [formGroup]="data.formGroup" [forms]="data.formType"></esi-form>
-    </div>
-  </ng-container>
+<!-- Standalone Form -->
+<ng-container *ngIf="data.formGroup && data.formType">
+  <mat-dialog-content>
+    <esi-form [formGroup]="data.formGroup" [forms]="data.formType"></esi-form>
+  </mat-dialog-content>
+</ng-container>
 
-  <ng-container *ngIf="data.label">
-    <!-- Standalone Label -->
-    <div mat-dialog-content style="padding: 15px !important;">
-      <label>{{data.label}}</label>
-    </div>
-  </ng-container>
+<!-- Standalone Label -->
+<ng-container *ngIf="data.label">
+  <mat-dialog-content style="padding: 15px !important;">
+    <label>{{data.label}}</label>
+  </mat-dialog-content>
+</ng-container>
 
-  <ng-container *ngIf="data.button1 || data.button2">
-    <div mat-dialog-actions class="dialog-action-buttons">
-      <button class="dialog-action-button" *ngIf="data.button1" mat-raised-button color="primary" (click)="onSave()"
-        [disabled]="data.formGroup ? data.formGroup.invalid : data.card ? 
+<ng-container *ngIf="data.button1 || data.button2">
+  <mat-dialog-actions class="dialog-action-buttons">
+    <button class="dialog-action-button" *ngIf="data.button1" mat-raised-button color="primary" (click)="onSave()"
+      [disabled]="data.formGroup ? data.formGroup.invalid : data.card ? 
       data.card.formGroup.invalid : false">{{data.button1}}</button>
-      <button class="dialog-action-button" *ngIf="data.button2" mat-raised-button color="warn"
-        (click)="closeDialog()">{{data.button2}}</button>
-    </div>
-  </ng-container>
+    <button class="dialog-action-button" *ngIf="data.button2" mat-raised-button color="warn"
+      (click)="closeDialog()">{{data.button2}}</button>
+  </mat-dialog-actions>
+</ng-container>
 
-  <ng-container *ngIf="data.component">
-    <div mat-dialog-content>
-      <ng-template #dynamicComponentContainer></ng-template>
-    </div>
-  </ng-container>
-</div>
+<ng-container *ngIf="data.component">
+  <mat-dialog-content>
+    <ng-template #dynamicComponentContainer></ng-template>
+  </mat-dialog-content>
+</ng-container>

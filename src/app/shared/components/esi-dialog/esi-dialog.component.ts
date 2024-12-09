@@ -34,22 +34,13 @@ export class EsiDialogComponent implements OnInit {
 
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef, static: false }) container: ViewContainerRef;
   componentRef: ComponentRef<any>;
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   ngAfterViewInit() {
     if (this.data.component && this.container) {
       this.container.clear(); // Önceki bileşenleri temizler
       this.componentRef = this.container.createComponent(this.data.component as Type<any>);
-    }
-    // if (this.data.card.component && this.container) {
-    //   this.container.clear(); // Önceki bileşenleri temizler
-    //   this.componentRef = this.container.createComponent(this.data.card.component as Type<any>);
-    // }
-  }
-  ngOnDestroy() {
-    if (this.componentRef) {
-      this.componentRef.destroy();
     }
   }
 
@@ -58,6 +49,7 @@ export class EsiDialogComponent implements OnInit {
     if (this.componentRef) {
       this.componentRef.destroy();
     }
+
   }
 
   onSave() {

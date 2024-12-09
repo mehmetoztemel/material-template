@@ -65,3 +65,18 @@ body {
         flex-direction: column !important; /* Mobilde alt alta */
     }
 }
+
+.field-responsive {
+    display: flex;
+}
+
+@media screen and (max-width: 800px) {
+    .field-responsive {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.field-responsive-margin {
+    margin-right: 5px;
+}
