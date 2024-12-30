@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule } from '@angular/material/core';
+import { MatOption, MatOptionModule } from '@angular/material/core';
 import { MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -57,7 +57,7 @@ export class EsiTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   filterState: { [key: string]: any } = {};
-
+  @ViewChild('multiSelect') multiSelect: MatSelect;
   constructor(public appConfig: AppConfig, private datePipe: DatePipe) {
   }
   ngOnInit(): void {
@@ -91,35 +91,67 @@ export class EsiTableComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  // updateDropdownOptions() {
+  //   if (this.columns != null) {
+  //     this.columns.forEach(column => {
+  //       if (column.filter === ColumnType.dropDown || column.filter === ColumnType.multiSelect) {
+  //         let dropdownOptions: IDropdownOption[] = [];
+  //         if (column.opt?.length > 0) {
+  //           dropdownOptions = column.opt
+  //             .filter(opt => this.dataSource.data.some((x: any) => x[column.field] === opt.value))
+  //             .map(opt => ({
+  //               viewValue: opt.value,
+  //               value: opt.value
+  //             }));
+  //         }
+  //         else {
+  //           const uniqueValues = Array.from(
+  //             new Set(this.dataSource.data.map((x: any) => x[column.field]))
+  //           ).filter(value => value != null && value !== "");
+  //           dropdownOptions = uniqueValues.map(option => ({
+  //             viewValue: option,
+  //             value: option
+  //           }));
+  //         }
+  //         this.dropDownOptionsMap[column.field] = dropdownOptions;
+  //       }
+  //     });
+  //   }
+  // }
+
   updateDropdownOptions() {
-    if (this.columns != null) {
+    this.columns.forEach(column => {
+      if (column.filter === ColumnType.dropDown || column.filter === ColumnType.multiSelect) {
+        let dropdownOptions: IDropdownOption[] = [];
 
-      this.columns.forEach(column => {
-        if (column.filter === ColumnType.dropDown || column.filter === ColumnType.multiSelect) {
-          let dropdownOptions: IDropdownOption[] = [];
-          if (column.opt?.length > 0) {
-            dropdownOptions = column.opt
-              .filter(opt => this.dataSource.data.some((x: any) => x[column.field] === opt.value))
-              .map(opt => ({
-                viewValue: opt.value,
-                value: opt.value
-              }));
-          }
-          else {
-            const uniqueValues = Array.from(
-              new Set(this.dataSource.data.map((x: any) => x[column.field]))
-            ).filter(value => value != null && value !== "");
-            dropdownOptions = uniqueValues.map(option => ({
-              viewValue: option,
-              value: option
+        // Dropdown seçeneklerini oluşturuyoruz
+        if (column.opt?.length > 0) {
+          dropdownOptions = column.opt
+            .filter(opt => this.dataSource.data.some((x: any) => x[column.field] === opt.value))
+            .map(opt => ({
+              viewValue: opt.value,
+              value: opt.value
             }));
-          }
-          this.dropDownOptionsMap[column.field] = dropdownOptions;
+        } else {
+          const uniqueValues = Array.from(
+            new Set(this.dataSource.data.map((x: any) => x[column.field]))
+          ).filter(value => value != null && value !== "");
+          dropdownOptions = uniqueValues.map(option => ({
+            viewValue: option,
+            value: option
+          }));
         }
-      });
-    }
-  }
 
+        // multiSelect için 'Tümünü Seç' seçeneği ekliyoruz
+        if (column.filter === ColumnType.multiSelect) {
+          dropdownOptions.unshift({ value: 0, viewValue: "Tümünü Seç" });
+        }
+
+        // Sonuçları dropDownOptionsMap'e atıyoruz
+        this.dropDownOptionsMap[column.field] = dropdownOptions;
+      }
+    });
+  }
   textFilter(event: Event, colName: string) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     const filteredData = this.value.filter((item: Record<string, any>) => {
@@ -156,13 +188,35 @@ export class EsiTableComponent implements OnInit {
     this.applyFilters();
   }
 
-  multiSelectFilterColumns(selectedValues: string[], colName: string) {
+  // multiSelectFilterColumns(selectedValues: string[], colName: string) {
+  //   if (selectedValues.length > 0) {
+  //     this.filterState[colName] = selectedValues;
+  //   }
+  //   else {
+  //     delete this.filterState[colName];
+  //   }
+  // }
+  multiSelectFilterColumns(selectedValues: any, colName: string) {
+    let selectedVal = [];
+    this.multiSelect.options.forEach((item: MatOption) => {
+      if (item.active == true && item.selected == false && item.value == 0) {
+        this.multiSelect.options.forEach((item: MatOption) => item.deselect());
+      }
+      else if (item.active == true && item.selected == true && item.value == 0) {
+        this.multiSelect.options.forEach((item: MatOption) => {
+          selectedVal.push(item.value);
+          item.select();
+        });
+      }
+    });
+
     if (selectedValues.length > 0) {
-      this.filterState[colName] = selectedValues;
+      this.filterState[colName] = selectedVal.length > 0 ? selectedVal.filter(x => x != 0) : selectedValues;
     }
     else {
       delete this.filterState[colName];
     }
+
   }
 
   applyFilters(matSelect?: MatSelect) {
@@ -174,6 +228,8 @@ export class EsiTableComponent implements OnInit {
       const filterValue = this.filterState[colName];
       if (Array.isArray(filterValue)) {
         // Çoklu seçim filtresi uygula
+        console.log(filterValue);
+
         filteredData = filteredData.filter((item: any) => filterValue.includes(item[colName]));
       } else {
         if (colName === dateColumn) {
@@ -214,5 +270,11 @@ export class EsiTableComponent implements OnInit {
       const viewValue = option.viewValue ? option.viewValue.toString().toLowerCase() : '';
       return viewValue.includes(filterValue);
     });
+  }
+
+
+  triggerEvent(e: any) {
+    console.log(e);
+
   }
 }

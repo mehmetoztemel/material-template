@@ -66,6 +66,26 @@ body {
     }
 }
 
+.mat-mdc-snack-bar-container {
+    &.error-snackbar {
+        --mdc-snackbar-container-color: #c62828;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+    &.success-snackbar {
+        --mdc-snackbar-container-color: #388e3c;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+    &.warn-snackbar {
+        --mdc-snackbar-container-color: #ffeb3b;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+}
+
 .field-responsive {
     display: flex;
 }

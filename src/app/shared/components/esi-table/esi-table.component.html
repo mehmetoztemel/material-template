@@ -34,7 +34,7 @@
                     </ng-container>
 
                     <!-- Multi Select Filter -->
-                    <ng-container *ngSwitchCase="'multiSelect'">
+                    <!-- <ng-container *ngSwitchCase="'multiSelect'">
                         <mat-select #multiSelect class="filterElement"
                             [ngClass]=" multiSelect.value?.length > 0 ? 'openDropDown' : ''"
                             (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple>
@@ -61,7 +61,44 @@
                         </mat-select>
                         <mat-icon *ngIf="multiSelect.value?.length > 0" class="filterIconRight"
                             (click)="clearDropDownSelection(multiSelect, column.field)">clear</mat-icon>
+                    </ng-container> -->
+
+                    <ng-container *ngSwitchCase="'multiSelect'">
+                        <mat-select #multiSelect class="filterElement"
+                            [ngClass]="multiSelect.value?.length > 0 ? 'openDropDown' : ''"
+                            (selectionChange)="multiSelectFilterColumns($event.value, column.field)" multiple
+                            (openedChange)="triggerEvent($event)" (valueChange)="triggerEvent($event)">
+                            <mat-select-trigger>
+                                {{multiSelect.value?.[0] || ''}}
+                                @if ((multiSelect.value?.length || 0) > 1) {
+                                (+{{(multiSelect.value?.length || 0) - 1}} {{multiSelect.value?.length === 2 ? 'other' :
+                                'others'}})}
+                            </mat-select-trigger>
+                            <div class="option-panel-wrapper">
+                                <div class="search-panel">
+                                    <mat-icon class="searchFilterIcon">search</mat-icon>
+                                    <input matInput type="text" class="searchFilterInput"
+                                        (keyup)="dropDownSearch($event, column)" autocomplete="off">
+                                </div>
+                                <div class="option-panel">
+                                    <mat-option *ngFor="let grp of dropDownOptionsMap[column.field]"
+                                        [value]="grp.value">
+                                        {{ grp.viewValue }}
+                                    </mat-option>
+                                </div>
+                            </div>
+                            <footer>
+                                <div class="footerButtons">
+                                    <button mat-raised-button color="primary" (click)="applyFilters()">Apply</button>
+                                    <button mat-raised-button color="warn"
+                                        (click)="clearDropDownSelection(multiSelect, column.field)">Clear</button>
+                                </div>
+                            </footer>
+                        </mat-select>
+                        <mat-icon *ngIf="multiSelect.value?.length > 0" class="filterIconRight"
+                            (click)="clearDropDownSelection(multiSelect, column.field)">clear</mat-icon>
                     </ng-container>
+
 
                     <!-- Dropdown Filter -->
                     <ng-container *ngSwitchCase="'dropDown'">
